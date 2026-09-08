@@ -11,6 +11,7 @@ BRANCH="${BRANCH:-main}"
 
 log() { echo -e "\n\033[1;36m==> $*\033[0m"; }
 ok()  { echo -e "\033[1;32m[OK]\033[0m $*"; }
+warn(){ echo -e "\033[1;33m[!!]\033[0m $*"; }
 
 cd "$APP_DIR" || { echo "目录不存在：$APP_DIR"; exit 1; }
 
@@ -38,7 +39,7 @@ git log --oneline -1
 
 log "2/4 重建容器"
 if docker compose version >/dev/null 2>&1; then DC="docker compose"; else DC="docker-compose"; fi
-if [ "$1" = "--rebuild" ] || git diff --name-only HEAD@{1} HEAD 2>/dev/null | grep -qE 'requirements.txt|Dockerfile'; then
+if [ "${1:-}" = "--rebuild" ] || git diff --name-only HEAD@{1} HEAD 2>/dev/null | grep -qE 'requirements.txt|Dockerfile'; then
   $DC up -d --build
 else
   $DC up -d --build     # 代码是 volume 挂载/COPY 进镜像，统一重建最稳

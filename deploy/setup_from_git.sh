@@ -84,6 +84,31 @@ build_mirrors() {
   esac
 }
 
+# --- 压缩包兜底：多数镜像站只转发 GET，git clone（POST）会失败，但 tarball 下载能成 ---
+try_tarball() {
+  local p base src
+  case "$REPO" in
+    https://github.com/*)  p="${REPO#https://github.com/}"; p="${p%.git}";;
+    git@github.com:*)      p="${REPO#git@github.com:}"; p="${p%.git}";;
+    *) return 1;;
+  esac
+  base="https://github.com/${p}/archive/refs/heads/${BRANCH}.tar.gz"
+  for m in "" "https://ghfast.top/" "https://gh-proxy.com/" "https://ghproxy.net/"; do
+    echo "  压缩包尝试：${m}${base}"
+    if timeout 120 curl -fsSL "${m}${base}" -o /tmp/karvis_code.tar.gz 2>/dev/null; then
+      rm -rf /tmp/karvis_code && mkdir -p /tmp/karvis_code
+      if tar -xzf /tmp/karvis_code.tar.gz -C /tmp/karvis_code 2>/dev/null; then
+        src="$(find /tmp/karvis_code -mindepth 1 -maxdepth 1 -type d | head -1)"
+        if [ -n "$src" ]; then
+          rm -rf "${APP_DIR:?}"/* 2>/dev/null || true
+          cp -a "$src"/. "$APP_DIR"/ && return 0
+        fi
+      fi
+    fi
+  done
+  return 1
+}
+
 mkdir -p "$APP_DIR"
 if [ -d "$APP_DIR/.git" ]; then
   cd "$APP_DIR"
@@ -103,9 +128,17 @@ else
     fi
     rm -rf "${APP_DIR:?}"/* 2>/dev/null || true
   done < <(build_mirrors "$REPO")
-  [ "$CLONED" = "1" ] || { warn "所有源都克隆失败。临时方案：本地打包上传，见 deploy/部署操作手册_网页终端版.md"; exit 1; }
+  if [ "$CLONED" != "1" ]; then
+    warn "git clone 全部失败（镜像站通常不转发 clone 的 POST 请求），改走压缩包下载"
+    if try_tarball; then
+      ok "压缩包下载成功"
+    else
+      warn "所有源都失败。临时方案：本地打包上传，见 deploy/部署操作手册_网页终端版.md"; exit 1
+    fi
+  fi
 fi
-cd "$APP_DIR" && git log --oneline -1
+cd "$APP_DIR"
+if [ -d .git ]; then git log --oneline -1; else echo "  （tarball 模式，无 .git；以后更新用 deploy/update.sh，已内置压缩包兜底）"; fi
 ok "代码已就位"
 
 # ------------------------------------------------------------
