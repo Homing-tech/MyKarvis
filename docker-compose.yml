@@ -1,0 +1,12 @@
+services:
+  karvis:
+    build: .
+    container_name: karvis
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./data:/opt/karvis/data
+      - ./assistants:/app/assistants:ro
+      - ./logs:/app/logs

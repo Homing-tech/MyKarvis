@@ -1,0 +1,20 @@
+# 不使用 Docker 时的备选方案
+# 放置到 /etc/systemd/system/karvis.service，然后：
+#   systemctl daemon-reload && systemctl enable --now karvis
+[Unit]
+Description=Karvis Personal Assistant Gateway
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/karvis
+EnvironmentFile=/opt/karvis/.env
+ExecStart=/opt/karvis/venv/bin/python -m uvicorn gateway.main:app --host 0.0.0.0 --port 9000
+Restart=always
+RestartSec=5
+StandardOutput=append:/opt/karvis/logs/karvis.log
+StandardError=append:/opt/karvis/logs/karvis.err
+
+[Install]
+WantedBy=multi-user.target

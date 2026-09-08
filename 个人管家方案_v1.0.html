@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="1ABHGwNTztJVLPBAlPDmmG">
+<head data-page-node-id="keEJJakbDzjTFSuFI416QM">
+<meta charset="UTF-8" data-page-node-id="j1G8XQuDZRmkrvDei99pHw">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="NL6sWxbxfL2E38hnyfvhwr">
+<title>个人管家方案 v1.0</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#FAFAF9;color:#1F2328;line-height:1.7;font-size:14px}
+.wrap{max-width:1000px;margin:0 auto;padding:40px 24px 80px}
+header{border-bottom:2px solid #1F2328;padding-bottom:20px;margin-bottom:36px}
+h1{font-size:26px;font-weight:600;letter-spacing:-.3px}
+.sub{color:#6B7280;font-size:13px;margin-top:6px}
+h2{font-size:19px;font-weight:600;margin:44px 0 16px;padding-left:12px;border-left:4px solid #1F2328}
+h3{font-size:15px;font-weight:600;margin:22px 0 10px}
+p{margin:10px 0}
+.muted{color:#6B7280;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:#fff}
+th,td{border:1px solid #E5E3DC;padding:9px 12px;text-align:left;vertical-align:top}
+th{background:#F4F3EF;font-weight:600;white-space:nowrap}
+tr:nth-child(even) td{background:#FCFCFB}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0}
+@media(max-width:820px){.grid3{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #E5E3DC;border-radius:12px;padding:20px;border-top:4px solid #888780}
+.card.f{border-top-color:#0F6E56}
+.card.m{border-top-color:#534AB7}
+.card.l{border-top-color:#185FA5}
+.card h3{margin-top:0;font-size:17px}
+.role{font-size:13px;color:#4B5563;min-height:56px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed #E5E3DC}
+.kv{font-size:13px;margin:5px 0}
+.kv b{display:inline-block;width:74px;color:#6B7280;font-weight:500}
+.tag{display:inline-block;background:#F4F3EF;border:1px solid #E5E3DC;border-radius:6px;padding:2px 8px;font-size:12px;margin:3px 4px 3px 0;color:#374151}
+.note{background:#FFFBF0;border:1px solid #F0DFB8;border-left:4px solid #BA7517;border-radius:8px;padding:14px 16px;margin:16px 0;font-size:13.5px}
+.rule{background:#F2F7F4;border:1px solid #C9E3D6;border-left:4px solid #0F6E56;border-radius:8px;padding:14px 16px;margin:16px 0;font-size:13.5px}
+.tl{position:relative;padding-left:26px;margin:20px 0}
+.tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:#E5E3DC}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-item::before{content:"";position:absolute;left:-23px;top:6px;width:10px;height:10px;border-radius:50%;background:#fff;border:2.5px solid #888780}
+.tl-item.f::before{border-color:#0F6E56}
+.tl-item.m::before{border-color:#534AB7}
+.tl-item.l::before{border-color:#185FA5}
+.tl-time{font-weight:600;font-size:13.5px}
+.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+@media(max-width:820px){.layers{grid-template-columns:1fr}}
+.layer{background:#fff;border:1px solid #E5E3DC;border-radius:10px;padding:14px}
+.layer .lv{font-size:12px;color:#6B7280;font-weight:600;letter-spacing:.5px}
+.layer .nm{font-size:14px;font-weight:600;margin:4px 0 6px}
+.layer .ds{font-size:12.5px;color:#4B5563}
+pre{background:#F7F6F2;border:1px solid #E5E3DC;border-radius:8px;padding:14px;overflow-x:auto;font-size:12.5px;font-family:ui-monospace,Consolas,monospace;line-height:1.6}
+code{font-family:ui-monospace,Consolas,monospace}
+.q{background:#fff;border:1px dashed #C9C7BE;border-radius:8px;padding:10px 14px;margin:8px 0;font-size:13px;color:#374151}
+.q b{color:#1F2328}
+ul{margin:10px 0 10px 20px}
+li{margin:5px 0}
+.ph{display:flex;gap:0;margin:16px 0;border:1px solid #E5E3DC;border-radius:10px;overflow:hidden;background:#fff}
+@media(max-width:820px){.ph{flex-direction:column}}
+.ph-n{background:#F4F3EF;padding:14px 16px;font-weight:600;font-size:13px;min-width:100px;border-right:1px solid #E5E3DC}
+.ph-c{padding:14px 16px;font-size:13px;flex:1}
+.steps{margin:12px 0}
+.step{display:flex;gap:12px;background:#fff;border:1px solid #E5E3DC;border-radius:8px;padding:10px 14px;margin:6px 0;font-size:13px}
+.step .sn{flex:0 0 22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:#534AB7;color:#fff;font-size:12px;font-weight:600}
+.step div{flex:1}
+.field{display:inline-block;background:#F4F3EF;border:1px solid #E5E3DC;border-radius:6px;padding:1px 7px;font-size:12px;margin:2px 3px 2px 0;color:#374151}
+footer{margin-top:52px;padding-top:20px;border-top:1px solid #E5E3DC;color:#6B7280;font-size:12.5px}
+</style>
+</head>
+<body data-page-node-id="iuFyxcMzQ0yjj5hfzxq4EC">
+<div class="wrap" data-page-node-id="jVlj3TrUDu3sglnCDRJNwH">
+
+<header data-page-node-id="hDvBbRBVUyyqdzo2iZ8PjT">
+  <h1 data-page-node-id="zjhY19xgIX2OHK8zEug2Xv">个人管家方案 v1.0</h1>
+  <div class="sub" data-page-node-id="JaltOqlGC7xE42zMeu1sM9">2026-09-08 · 微信端（企业微信自建应用 ×3）+ 腾讯云轻量 + DeepSeek · 参考 KarvisPi 架构 · <b style="color:#0F6E56">需求已锁定，可开工 P0</b></div>
+</header>
+
+<h2 data-page-node-id="Wp8HbUAcIDP4r2ZzrfIBsn">一、已锁定决策</h2>
+<table data-page-node-id="4YmOf4zTNTFxjvV2kKSAo4">
+  <tr data-page-node-id="qVTlauhhE91eO1J1eVkzyp"><th data-page-node-id="zLM4vm4DDr1RiDZrL9fRQg">项目</th><th data-page-node-id="sTjwpHHNdllm5v976gOzYg">决定</th></tr>
+  <tr data-page-node-id="8abha9QOoehADfMwekK24v"><td data-page-node-id="iMNaYHrJPpwfVHjmK25xJu">微信入口</td><td data-page-node-id="JbqJdaESEgeUoDZjJBGpMh">企业微信自建应用 ×3，各自独立会话</td></tr>
+  <tr data-page-node-id="dscSmajbyId0SbhOpTyoY0"><td data-page-node-id="BWAJlyu9Kk1rXFUEfPxLKk">服务器</td><td data-page-node-id="1c3llhJ4C4fJoY6cgeyPmw">腾讯云轻量 <code data-page-node-id="ghzFqBuuHBpBccC3EYpS2w">49.235.107.213</code>（上海，4C/4G/40G）</td></tr>
+  <tr data-page-node-id="R2qlZ7bGO9eqh9jRSY2f1y"><td data-page-node-id="hpyyvT0Ne0ftKepm9TQP2M">回调地址</td><td data-page-node-id="MbiljwMO4JVUaZVyL4U0VD"><code data-page-node-id="RtM3TiNJFulnQ2h6H885Ni">http://49.235.107.213:9000/wework</code> — 裸公网 IP + 自定义端口，<b data-page-node-id="Fm9upsjMOuyvp5VTgdmaKA">免域名、免 ICP 备案</b>（部署时按实际步骤再定）</td></tr>
+  <tr data-page-node-id="0EEe5T16nyAbKXa4GJtuqg"><td data-page-node-id="V6GWi6luYOM1lZF6Wnb64C">助手大脑</td><td data-page-node-id="zk6EqQrcbIfTBdTPufwS1C">自研轻量内核：Python 网关直接编排 DeepSeek API + 自写工具函数</td></tr>
+  <tr data-page-node-id="84pkcfOhcdxp5oEIo7Br1h"><td data-page-node-id="iJPZ4PmX5vyBJFMSz4oZAE">数据合规</td><td data-page-node-id="4MUZAx6xEp781Os4STQtDS">宽松，均为个人数据</td></tr>
+  <tr data-page-node-id="saliy9oviSS7R6s07lwejW"><td data-page-node-id="9XABzjM4XP3FDLf2Szbgtn">推送窗口</td><td data-page-node-id="rQ0HjuhMGadh9Hek7ZYuH0">工作日 + 周末均可</td></tr>
+  <tr><td>备份</td><td>腾讯云 COS（异地容灾，不在同一台服务器上）</td></tr>
+</table>
+
+<h3>应用显示名（微信里看到的）</h3>
+<table>
+  <tr><th>企微应用显示名</th><th>内部 ID</th><th>角色</th></tr>
+  <tr><td><b>埼玉教练</b></td><td><code>fitness</code></td><td>健身记录与反馈</td></tr>
+  <tr><td><b>阿尼亚督导</b></td><td><code>mood</code></td><td>情绪 CBT 梳理</td></tr>
+  <tr><td><b>阿龙管家</b></td><td><code>life</code></td><td>事项收集与整理</td></tr>
+</table>
+
+<div class="note" data-page-node-id="r18TYqli1hUllyoz6e7ubG">
+<b data-page-node-id="gNnKTMtOg6Mf2lfKTxuUQB">零命令语法。</b>因为选了「多个企微应用、各自独立会话」，发到哪个应用就是哪个助手——不需要 <code data-page-node-id="VtPmCL6BhaESSswCBb3338">@名字</code>、不需要 <code data-page-node-id="yT6RlzGhGfeFumoCyBUhWM">/命令</code>、不需要任何前缀。打开「埼玉教练」说话，它就是埼玉教练；打开「阿尼亚督导」说话，它就是阿尼亚督导。输入可以完全是自然口语。
+</div>
+
+<h2 data-page-node-id="CowCfBAMTD5pXyCZzeEBid">二、三个助手</h2>
+
+<div class="grid3" data-page-node-id="fHJGNKbkQ6x7sK5tElbNav">
+
+  <div class="card f" data-page-node-id="IhBhrelEF6a1FHDfPVttSw">
+    <h3 data-page-node-id="0djN45UQwANOhjHjWkIB8h">埼玉教练</h3>
+    <div class="role" data-page-node-id="VABYZOs4nBJ8dSoin5barw">记下你每次练了什么，把它和你次天的身体感受连起来，给一条下次能立刻用上的调整建议。</div>
+    <div class="kv" data-page-node-id="utauKxVfB3L0vAUzHPlyYP"><b data-page-node-id="TtYttydZdQKWXQZCEufzej">触发</b>被动，你发它就接</div>
+    <div class="kv" data-page-node-id="EbIHAvM31MOIGc4IQ5TmWG"><b data-page-node-id="rLDUyeBdBojbJMlEuFFkgs">记忆</b>L3 私密</div>
+    <div class="kv" data-page-node-id="q4KbKbbZMqWkI2qAu5s5vI"><b data-page-node-id="PkTSGy6vB1pOa8K2CE3AHf">推送</b>连续 3 天无训练记录 → 21:30 轻提醒（已开启）</div>
+    <h3 data-page-node-id="PHe4pRLaDcSg6V51IWR7m2">输入</h3>
+    <div class="q" data-page-node-id="Hm7Z2eWsD6AI8pffp8bf16"><b data-page-node-id="Z755Bol6FqbdoYvI016VYF">训练：</b>今天胸+三头：卧推 60kg 8×4，上斜哑铃 22kg 10×3，绳索下压 15×4，最后跑了 20 分钟</div>
+    <div class="q" data-page-node-id="Gt4C1jUHp6eh2N47i3aRRb"><b data-page-node-id="tKQTTMtOXNCWjEX66hfRDv">感受：</b>昨天练完，今天胸外侧酸，肩膀有点紧，睡得一般</div>
+    <h3 data-page-node-id="Rxz8CWAZbQMBGB5gd8Xe7J">输出</h3>
+    <ul data-page-node-id="JT6mVsdXVq4GZImrD0qypg">
+      <li data-page-node-id="nxJv6nTNNSzMGiB6SfaM4A">结构化回填（确认它理解对了）</li>
+      <li data-page-node-id="u60xAGq30H3iLqrGAUadFI">与上次同部位对比：容量 / 重量</li>
+      <li data-page-node-id="JPXq0gsxLHkYTF1Kv5SVTZ">结合已有感受数据的反馈</li>
+      <li data-page-node-id="VFHZ2B0Gdmw0GbiwatEZtt">一条下次训练的具体建议</li>
+    </ul>
+    <h3 data-page-node-id="3RK1yEBRXGAwEf5i82JYDf">技能</h3>
+    <span class="tag" data-page-node-id="5rierCD1MUfpRaVxAXeyGe">训练日志读写</span><span class="tag" data-page-node-id="9CMb1wVERGeWPEaG4vPZiq">次天感受关联</span><span class="tag" data-page-node-id="CnAEB3X5WJSfyoWqmNyNTi">同动作历史查询</span><span class="tag" data-page-node-id="67vDmYNMB99OENv8mx8Idn">容量与强度计算</span><span class="tag" data-page-node-id="yf1dbzDSgLtJL0M0cPvLk3">肌群疲劳间隔</span><span class="tag" data-page-node-id="5CAe0qrDjYeliFfiwh57Pb">进步曲线</span>
+  </div>
+
+  <div class="card m" data-page-node-id="LvBD7GyctPSofn5wMnMHbc">
+    <h3 data-page-node-id="wByJ8CUoCqSJwLuMwdVYpJ">阿尼亚督导</h3>
+    <div class="role" data-page-node-id="ncMS5gAyQ395y6BD8lV77m">用 CBT 的逻辑帮你把一次情绪看清楚，再给它一个精准的名字。<b>不安慰，不急着给建议。</b></div>
+    <div class="kv" data-page-node-id="QUlmd5pCE8JWKeEqa0aMIX"><b data-page-node-id="vGFWGQRWT2JJSeJJik3P1d">触发</b>被动 + 周日 21:00 复盘</div>
+    <div class="kv" data-page-node-id="fwWs8E52Mpj2UQVA41GqHs"><b data-page-node-id="a2sAjaHF9CiXuMY1nTfrJ3">记忆</b>L3 私密（最高敏感）</div>
+    <div class="kv" data-page-node-id="L2bLns90bQjslC8ptbwk4P"><b data-page-node-id="iN5qhXunbadFXDLkbI4C3P">推送</b>每周日 21:00</div>
+    <h3>输入：四段式（不强制）</h3>
+    <pre>【事件】今天发生了什么
+【感受】情绪关键词
+【身体反应】心跳加速 / 胸口闷 / 胃紧…
+【想法】当时脑子里在说什么</pre>
+    <div class="q">口语一段话说完也照收，助手自动切成四段并回一句确认，<b>最多只追问缺失的一项</b>（优先追问「想法」）——不让填表变成门槛。</div>
+    <h3>单次输出：五步，顺序固定</h3>
+    <div class="steps">
+      <div class="step"><span class="sn">0</span><div><b>镜像确认</b>一句话复述事实。只复述，不安慰，「我理解你」这类话禁止。</div></div>
+      <div class="step"><span class="sn">1</span><div><b>为什么会这样反应 + 它保护了我什么</b>必须答出「保护了什么」，答不出就明说尚未识别，不许编。</div></div>
+      <div class="step"><span class="sn">2</span><div><b>是 100% 事实，还是我的假设</b>三分法：事实 / 假设 / 解释；列支持证据 vs 反对证据。</div></div>
+      <div class="step"><span class="sn">3</span><div><b>换个更客观的视角，情绪会变吗</b>四个视角里选 1–2 个，全列一遍 = 没做。</div></div>
+      <div class="step"><span class="sn">4</span><div><b>未来 24 小时的一件微小且具体的行动</b>唯一一个：具体、≤30 分钟、自己能做、可验证。</div></div>
+      <div class="step"><span class="sn">5</span><div><b>精准命名</b>心理学 / 社会学 / 哲学 / 文学，只从封闭术语库选 1–2 个，带定义与出处。</div></div>
+    </div>
+    <div class="q"><b>顺序不可换。</b>先看清（1–3）→ 再行动（4）→ 命名（5）收尾。命名放最前面就变成贴标签。</div>
+    <h3>周复盘结构</h3>
+    <ul>
+      <li>本周情绪强度曲线（按天）</li>
+      <li>Top 3 触发源</li>
+      <li><b>高频自动思维</b>：出现 ≥2 次的同一句话或同类想法</li>
+      <li><b>高频认知扭曲</b>：本周命名术语里出现最多的 1–2 个</li>
+      <li><b>保护功能分布</b>：这一周情绪主要在保护什么</li>
+      <li><b>24 小时行动完成率</b>（唯一的行为指标）</li>
+      <li>下周一个小实验 —— <b>带样本量</b>，不足则写「样本少，待观察」</li>
+    </ul>
+    <h3>技能</h3>
+    <span class="tag">CBT 结构化记录</span><span class="tag">自动思维识别</span><span class="tag">证据检验</span><span class="tag">视角重评</span><span class="tag">封闭术语命名</span><span class="tag">历史模式比对</span><span class="tag">复盘生成</span><span class="tag">定时触发</span>
+  </div>
+
+  <div class="card l" data-page-node-id="fh1oSD1A0YUB4UcXk3VRxd">
+    <h3 data-page-node-id="Db0VNT8IoQyfmS1Y9mLrCv">阿龙管家</h3>
+    <div class="role" data-page-node-id="tY5VA9W3P7eP2X5ysLWfNy">你随手丢进去的东西，它记下、分类、到期提醒，每周帮你清一遍。<b data-page-node-id="R3GCqD9BBmPETOV3EQ1pjJ">兼任默认兜底入口。</b></div>
+    <div class="kv" data-page-node-id="MigLp6BZ1muKQQBqR70wGG"><b data-page-node-id="EUDw06NanFCiF6kAUH836E">触发</b>随手丢 + 每日 08:30 + 周日 10:00</div>
+    <div class="kv" data-page-node-id="jdBRaYSHVTKffnKlVEc2SE"><b data-page-node-id="XmoZGAvsfPCzFDxfGFm9iU">记忆</b>L2 / L3 混合</div>
+    <div class="kv" data-page-node-id="UkRmr7PQJ0RWq5xdpHpxCI"><b data-page-node-id="FlBMzYYH2TolgDEDARCFAB">推送</b>每天 08:30 · 周日 10:00</div>
+    <h3 data-page-node-id="1gG6rCkDIW7EVRkp7LPWMA">输出</h3>
+    <ul data-page-node-id="AiqvELDz3x1SJknwDuqrq4">
+      <li data-page-node-id="uqJY12nJgoX6SFDyboRd7q">收集时一句确认：<code data-page-node-id="TbWABwJBI7rcUjRehFPGNU">记下了 · 待办 · 周五前</code></li>
+      <li data-page-node-id="FRNZbeuKhkW4EooV8qMrom">每天 08:30：今日待办 + 逾期项</li>
+      <li data-page-node-id="QUCDM4m9jY8laVHFg3Qdcw">周日 10:00：完成项 / 搁置超 14 天（问「还要吗」）/ 未归类项</li>
+    </ul>
+    <h3 data-page-node-id="RntUx4rlm6kMFQuLrEZy8t">技能</h3>
+    <span class="tag" data-page-node-id="4ULrcSXKPoniMwBg7XU6H4">收集归档</span><span class="tag" data-page-node-id="RBmGvm59FH9kOSd6UiB3cL">自动分类打标</span><span class="tag" data-page-node-id="qRHFf5B9xm6hIxdG5gV4P5">到期提醒</span><span class="tag" data-page-node-id="4RIhOgpkLkSwdVTYuk5JJF">定期整理</span><span class="tag" data-page-node-id="Ivtpik97sGDmYQNs6ssfF9">全文检索</span>
+  </div>
+
+</div>
+
+<h2 data-page-node-id="Y1oin85Hu4fYwDtJoB3uyA">三、两个核心机制</h2>
+
+<h3 data-page-node-id="2TRFte6DnGf4r07Eot2Ov9">健身：次天感受闭环</h3>
+<pre data-page-node-id="CgWYxjoj4XvTUKwbAooWvX">T 日    你发训练内容   →  落库 workout_log，回填确认
+T+1 日  你发感受       →  关联到 T 日那条记录，落库 workout_feedback
+下次同肌群训练时      →  自动带上「上次这个计划后，你的感受是 X」</pre>
+<p data-page-node-id="bhldixOFCBowTkCbsgQ9gU">这个闭环是它区别于「记事本」的关键：反馈不是凭空给的，是拿你自己的历史身体反应给的。</p>
+
+<h3>情绪：Step 1 的「保护功能」怎么答</h3>
+<table>
+  <tr><th>情绪</th><th>它通常在保护什么</th></tr>
+  <tr><td>焦虑</td><td>提前预警与动员，让你避开可能的失控</td></tr>
+  <tr><td>愤怒</td><td>边界被侵犯的信号，在争取被尊重的资格</td></tr>
+  <tr><td>自责</td><td>试图重获控制感——「是我的错」意味着「下次我能改」</td></tr>
+  <tr><td>麻木 / 走神</td><td>过载保护，在情绪超过可承受阈值时切断感受</td></tr>
+  <tr><td>拖延</td><td>回避短期痛苦，代价是长期压力</td></tr>
+  <tr><td>嫉妒</td><td>指向你真正在意但还没承认的欲望</td></tr>
+  <tr><td>失望</td><td>在保护你对某人 / 某事的期待标准，提醒你标准该澄清了</td></tr>
+</table>
+
+<h3>情绪：Step 3 的四个可选视角</h3>
+<table>
+  <tr><th>视角</th><th>问法</th></tr>
+  <tr><td>给朋友写信</td><td>同样的遭遇发生在朋友身上，你会怎么对他说？</td></tr>
+  <tr><td>10-10-10</td><td>10 分钟后 / 10 个月后 / 10 年后，它还占多大分量？</td></tr>
+  <tr><td>控制二分</td><td>斯多葛：这件事里哪些在我掌控内，哪些不在？</td></tr>
+  <tr><td>多因归因</td><td>除了「都是我的问题」，还有几个因素在起作用？</td></tr>
+</table>
+
+<h3>情绪：Step 5 封闭术语库（模型只许从这里选，不得自造）</h3>
+<div class="note"><b>这是整套设计里最容易被大模型做坏的一步</b>——「顶尖学者命名」最容易变成胡编生僻词。所以术语库封闭，每个词标了定义与出处，词库无匹配则明说「无精确对应」。</div>
+
+<table>
+  <tr><th>心理学</th><th>定义与出处</th></tr>
+  <tr><td>灾难化 Catastrophizing</td><td>把可能结果自动推到最坏；Beck 认知扭曲之一</td></tr>
+  <tr><td>反刍思维 Rumination</td><td>反复咀嚼负面内容而不求解；Nolen-Hoeksema</td></tr>
+  <tr><td>情绪推理 Emotional Reasoning</td><td>「我感觉很糟，所以事实一定很糟」——把感受当证据</td></tr>
+  <tr><td>读心 Mind Reading</td><td>未经核实就断定他人想法</td></tr>
+  <tr><td>应该句式 Should Statements</td><td>用「我必须 / 他应该」制造落差</td></tr>
+  <tr><td>预期性焦虑 Anticipatory Anxiety</td><td>对尚未发生之事的持续预演</td></tr>
+  <tr><td>评价恐惧 Fear of Negative Evaluation</td><td>过度在意他人负面评价；Watson &amp; Friend</td></tr>
+  <tr><td>冒名顶替现象 Impostor Phenomenon</td><td>把成就归因于运气，恐惧被「识破」；Clance &amp; Imes 1978</td></tr>
+  <tr><td>习得性无助 Learned Helplessness</td><td>反复受挫后放弃尝试；Seligman</td></tr>
+  <tr><td>悲观归因风格</td><td>把坏事归为内在 / 稳定 / 全局；Abramson &amp; Seligman</td></tr>
+  <tr><td>条件性自我价值 Contingent Self-Worth</td><td>自我价值被绑定在某个领域的表现上；Crocker</td></tr>
+  <tr><td>认知融合 Cognitive Fusion</td><td>与想法黏在一起，把「我想」当成「我是」；ACT</td></tr>
+  <tr><td>经验性回避 Experiential Avoidance</td><td>为回避不适感受而缩小生活半径；ACT</td></tr>
+  <tr><td>聚光灯效应 Spotlight Effect</td><td>高估他人对自己的关注程度；Gilovich</td></tr>
+  <tr><td>影响偏差 Impact Bias</td><td>高估未来事件的情绪持续时长；Gilbert &amp; Wilson</td></tr>
+</table>
+
+<table>
+  <tr><th>社会学</th><th>定义与出处</th></tr>
+  <tr><td>上行社会比较 Upward Social Comparison</td><td>与更优者比较导致自我评价下降；Festinger 1954</td></tr>
+  <tr><td>相对剥夺 Relative Deprivation</td><td>不是因为少，而是因为别人多</td></tr>
+  <tr><td>地位焦虑 Status Anxiety</td><td>对自身社会位置的持续担忧；de Botton</td></tr>
+  <tr><td>角色冲突 / 角色过载 Role Conflict / Overload</td><td>多重身份要求同时压来</td></tr>
+  <tr><td>情感劳动 Emotional Labor</td><td>为符合角色要求而管理自己的情绪；Hochschild 1983</td></tr>
+  <tr><td>时间贫困 Time Poverty</td><td>主观上时间永远不够用的匮乏感</td></tr>
+</table>
+
+<table>
+  <tr><th>哲学</th><th>定义与出处</th></tr>
+  <tr><td>存在性焦虑 Angst</td><td>面对自由与不确定性的根本焦虑；Kierkegaard</td></tr>
+  <tr><td>荒诞 The Absurd</td><td>寻求意义的愿望与沉默世界之间的张力；Camus</td></tr>
+  <tr><td>他者凝视 The Gaze</td><td>在他人目光中把自己对象化；Sartre</td></tr>
+  <tr><td>沉沦 Das Man</td><td>被「常人」的平均值支配而失去本己；Heidegger</td></tr>
+  <tr><td>控制二分 Dichotomy of Control</td><td>区分在我之内与不在我之内；Epictetus</td></tr>
+  <tr><td>预先冥想 Premeditatio Malorum</td><td>预想最坏以削弱其冲击；斯多葛</td></tr>
+  <tr><td>Torschlusspanik（关门恐慌）</td><td>「门快关了」的窗口焦虑，多见于年龄与机会窗口；德语</td></tr>
+</table>
+
+<table>
+  <tr><th>文学</th><th>定义与出处</th></tr>
+  <tr><td>卡夫卡式 Kafkaesque</td><td>面对无名、无由、不可申辩的结构性压迫</td></tr>
+  <tr><td>局外人的疏离</td><td>与周遭情感脚本脱节；Camus《局外人》</td></tr>
+  <tr><td>多余人 Superfluous Man</td><td>19 世纪俄国文学：有自觉却无处安放的旁逸者</td></tr>
+  <tr><td>Weltschmerz 世界之痛</td><td>现实世界达不到理想而产生的哀伤；德国浪漫主义</td></tr>
+  <tr><td>物哀 Mono no aware</td><td>对事物无常的温柔哀感；日本美学</td></tr>
+  <tr><td>Saudade</td><td>对缺席之人 / 之时的绵长怀念；葡语</td></tr>
+  <tr><td>L'esprit de l'escalier 楼梯机智</td><td>事后才想到该怎么说的懊恼；法语</td></tr>
+</table>
+
+<div class="rule"><b>输出红线：</b>不安慰、不给鸡汤、不评价对错、不做心理诊断、不抢着给建议；一次只给一个 24 小时行动；术语不可自造；识别到持续低落或自伤信号 → 明确建议寻求专业帮助，不试图「治好」。</div>
+
+<h2 data-page-node-id="KscSQuSPpDO1GSK97oLd8M">四、记忆与隔离</h2>
+<div class="layers" data-page-node-id="5TBIzaSFXsq7LtlPy7BLs8">
+  <div class="layer" data-page-node-id="bEW2mtFn4Kb0Tv8pVsBbsy"><div class="lv" data-page-node-id="iCNjH96OpBmavEaGcd3sx6">L1</div><div class="nm" data-page-node-id="E40BBdW13pE6WHt0BRBYBj">通用画像</div><div class="ds" data-page-node-id="DE28UPwlqO5vvxjNRDr1PO">三个助手启动即读：你的沟通偏好与红线（结论先行 / 不要说教 / 不要鸡汤 / 样本不足要明说）</div></div>
+  <div class="layer" data-page-node-id="uYHCYQOfHrmN1pZoD0HhRA"><div class="lv" data-page-node-id="LsBeOPxsD9TPWFut7DQJEB">L2</div><div class="nm" data-page-node-id="wjrxCIN47b6pfSojVFlgD7">可共享事实</div><div class="ds" data-page-node-id="3VsTvFgkOEpyRtYPbXPpE4">只有 life 写，其他两个只读</div></div>
+  <div class="layer" data-page-node-id="NQMZP2QqsvukhTZ0usRT7n"><div class="lv" data-page-node-id="cVKii5iMkEGIrws47YOp6s">L3</div><div class="nm" data-page-node-id="NVUBwPAYMIA2ZD5TsulttQ">私密</div><div class="ds" data-page-node-id="EUXTDV3lkBU8bXY8t8oUSB">fitness 与 mood 各自独立，互不可见，life 也看不到</div></div>
+</div>
+<div class="rule" data-page-node-id="9NpJeNoSWc6rUD4rBN98G4"><b data-page-node-id="cA0Zzj7CGhU3DSoAkR6zIW">硬规则：健身数据与情绪数据严格隔离，不进共享层，不跨助手读取。</b>这是三个助手里唯一不能妥协的一条——身体细节和情绪记录是最高敏感度的内容。</div>
+
+<h2 data-page-node-id="XYZEigl7hiQpZPw7qJSIq1">五、推送节奏</h2>
+<div class="tl" data-page-node-id="6NuDhiErvjeN6bvYB2IP8h">
+  <div class="tl-item l" data-page-node-id="S5yvTeS0L7WD3Z6c7fLnpR"><div class="tl-time" data-page-node-id="wWHkuqwm09iQeZH7sOjHgh">每天 08:30 · 阿龙管家</div><div class="muted" data-page-node-id="GApMq9VGn7MTjJRe557bpV">今日待办 + 逾期项</div></div>
+  <div class="tl-item f" data-page-node-id="V1K0oFhu254RPH5EWIVeDG"><div class="tl-time" data-page-node-id="2wIh4KwQs1HE8jkIMyfTTh">每天 21:30 · 埼玉教练</div><div class="muted" data-page-node-id="a4CG41CKheFDVYt9kXpCFP">仅当连续 3 天无训练记录（已开启）</div></div>
+  <div class="tl-item l" data-page-node-id="TRQDcyq62pEjakuwgpKNro"><div class="tl-time" data-page-node-id="dpgsdRQUJEwbWSZP8sL4Av">周日 10:00 · 阿龙管家</div><div class="muted" data-page-node-id="4BDIbgyKDJwdXtjySKEidk">周度整理：完成项 / 搁置超 14 天 / 未归类项</div></div>
+  <div class="tl-item m" data-page-node-id="OnLrD2VDv66g8jJ2CCGIeX"><div class="tl-time" data-page-node-id="MLbRA1ztnMtXhEqCIZDd9F">周日 21:00 · 阿尼亚督导</div><div class="muted" data-page-node-id="kOmRCcGPGKtd71SrvGbIFR">情绪周复盘</div></div>
+</div>
+<p class="muted" data-page-node-id="FH1AEqD6RU53xVLJBRImMm">周日两个推送间隔 11 小时，不撞车。</p>
+
+<h2 data-page-node-id="4yUTm8nPo4iAWjLm00oY1D">六、数据模型</h2>
+<pre data-page-node-id="DOGoFckHBMZgIOiziXyNZ6">CREATE TABLE workout_log (
+  id INTEGER PRIMARY KEY,
+  log_date TEXT NOT NULL,   -- 训练日 YYYY-MM-DD
+  plan TEXT,                -- 今日计划，如「胸+三头」
+  exercises TEXT,           -- JSON: [{name, weight, reps, sets, rpe}]
+  cardio TEXT,              -- 有氧部分
+  raw_input TEXT,           -- 原始输入，解析出错时可回溯
+  created_at TEXT
+);
+
+CREATE TABLE workout_feedback (   -- 关联 workout_log.log_date
+  id INTEGER PRIMARY KEY,
+  for_date TEXT NOT NULL,   -- 对应训练日
+  report_date TEXT NOT NULL,
+  soreness TEXT,            -- 酸痛部位与程度
+  pain TEXT,                -- 疼痛（与酸痛区分，非空则提示就医）
+  sleep TEXT, energy TEXT, raw_input TEXT, created_at TEXT
+);
+
+CREATE TABLE mood_log (                -- CBT 四段式 + 五步输出
+  id INTEGER PRIMARY KEY,
+  ts TEXT NOT NULL,
+  event TEXT, feeling TEXT, body TEXT, thought TEXT,
+  intensity INTEGER,        -- 强度 1-10
+  protective_fn TEXT,       -- 这个反应保护了我什么
+  fact_or_assumption TEXT,  -- 事实 / 假设 / 解释
+  evidence_for TEXT, evidence_against TEXT,
+  reframe TEXT,             -- 换视角重评（记录选用了哪个视角）
+  micro_action TEXT,        -- 24 小时微行动
+  action_done INTEGER,      -- 0/1，次日回填，用于算完成率
+  naming TEXT,              -- JSON: [{term, field, def}] 取自封闭术语库
+  raw_input TEXT, created_at TEXT
+);
+
+CREATE TABLE inbox_item (
+  id INTEGER PRIMARY KEY,
+  ts TEXT NOT NULL,
+  kind TEXT,                -- todo / idea / note / link / person
+  title TEXT, detail TEXT, tags TEXT,
+  status TEXT,              -- open / doing / done / snoozed / dropped
+  due_date TEXT, last_reminded TEXT, raw_input TEXT, created_at TEXT
+);
+
+CREATE VIRTUAL TABLE memory_fts USING fts5(path, content, tokenize='unicode61');</pre>
+<p class="muted" data-page-node-id="X3LZsjJwPQpFKGcyBwzBsu">Markdown 记忆沿用 KarvisPi 结构：<code data-page-node-id="3OVg8CRRp1FeMKTarf2WRo">data/memory/YYYY-MM-DD.md</code>（每日）、<code data-page-node-id="2eqzR5hmSgfpZw09HX3JTl">shared.md</code>（L2）、各助手私密目录独立。FTS5 替代原版纯 mdsearch，文件上千后检索不会变慢。</p>
+
+<h2 data-page-node-id="iGOyZzNqlET8GkL9fD7gMh">七、部署要点</h2>
+<table data-page-node-id="8eJndLeN3YFBIYAfKvfu4N">
+  <tr data-page-node-id="Azrl1Wk4QQ1osq9uLVsKIj"><th data-page-node-id="ZilwrYY8eV1yPWSCdLy7gq">#</th><th data-page-node-id="JnLTF2DLIzS86nHEPHz3Qb">步骤</th></tr>
+  <tr data-page-node-id="usHGN2RiNRpAXbFIzFlbXs"><td data-page-node-id="QtrsDuK5EVZogqe86k3PhL">1</td><td data-page-node-id="6dLcanVM6OjZ0mjq18PBCc">腾讯云轻量防火墙放行 TCP 9000</td></tr>
+  <tr data-page-node-id="oOc4AP9uB33zCZ29aKJEl0"><td data-page-node-id="UDDgsf6oUIXFl2DCINYL3W">2</td><td data-page-node-id="x9UuxU4HDeE13Uh66fEzBS">服务器 <code data-page-node-id="qmPfAKYFnpgTTxXT8IGWOD">git clone</code> → 填 <code data-page-node-id="sDHCBIjCn0aupiQoQnff2g">.env</code>（3 组 CorpID / AgentId / Secret + Token + AESKey + DeepSeek Key）</td></tr>
+  <tr data-page-node-id="u29BTuVQmwPtPYRPe2XzWM"><td data-page-node-id="BSmpXjATfH5EbyCV9DpRgg">3</td><td data-page-node-id="HDp41EiCqCjIQse2oM2XsA"><code data-page-node-id="C8P47MWJHVqsFHpZ7quEnn">docker compose up -d</code></td></tr>
+  <tr data-page-node-id="EH6TVKpYyFIhSxOwmGAEGn"><td data-page-node-id="2o5sJvWe7TEiSPFW5zX2yR">4</td><td data-page-node-id="491EzW0g3N2B7tHq0JKfuB">企微后台每个应用填回调 URL：<code data-page-node-id="KYljqHuoczY79YiwadmfTL">http://49.235.107.213:9000/pi/{fitness|mood|life}</code></td></tr>
+  <tr data-page-node-id="3fd7wZ4cFasAEhF7fNv1gR"><td data-page-node-id="tCS6XbGM4orSkVzPxL3MVP">5</td><td data-page-node-id="4C4zWRlBoUudsBEw3RGubN"><b data-page-node-id="pq6YcL0i2LrzvWbGwykNIH">配「企业可信 IP」= 49.235.107.213</b> — 漏这步会导致「能收消息但不回复」</td></tr>
+  <tr data-page-node-id="OtuNSu3Ewp23o5D7FHPw0t"><td data-page-node-id="9SCi45WjC3rMcXEBWZKlTV">6</td><td data-page-node-id="rrcW8SyLFUDyyQUI8CAPSO">各应用发一句「你好」验证</td></tr>
+</table>
+<p class="muted" data-page-node-id="TgXpUNrkQenjvRIiNrrcyB">三个应用 = 三组 Secret，各自独立 <code data-page-node-id="0cuOhq0uXUvamKGB7wVLNq">.env.&lt;name&gt;</code>，chmod 600，不进 git。</p>
+
+<h2 data-page-node-id="Ho9VPWXiGqg0oTHDWDHFNq">八、实施分期</h2>
+<div class="ph" data-page-node-id="acEDBdAgCYx19iR5DAWYMV"><div class="ph-n" data-page-node-id="uR7bVo8L7n8yI3gG5KNRs5">P0 打通链路</div><div class="ph-c" data-page-node-id="h65UoZsh2czbyqeFkQhDxL">1 个应用 + 网关 + DeepSeek，能收能回 → 企微里能对话</div></div>
+<div class="ph" data-page-node-id="eARBixmGw1l0R7ucXaV7Mp"><div class="ph-n" data-page-node-id="jlgGGrVZVaVSSyvaHdnGsC">P1 记录能力</div><div class="ph-c" data-page-node-id="kKlf474qSDFO1SXyfujMLs">三个助手都会「记」：能存、能查、能回填确认 → <b data-page-node-id="nM7AtxMDho472H594xBzjS">开始攒数据</b></div></div>
+<div class="ph" data-page-node-id="igGsuBMdOXYp3Qov6hkCtb"><div class="ph-n" data-page-node-id="2tSXgNBlKR157F9wUDTuAt">P2 分析反馈</div><div class="ph-c" data-page-node-id="7JaofZlKX9Rmgvh1ItMFRE">fitness 次天闭环、mood CBT 五步、life 自动分类整理 → 助手开始有用</div></div>
+<div class="ph" data-page-node-id="pA2HiNLB1ZNF4KJMD5tKCc"><div class="ph-n" data-page-node-id="eyG0iLx8qfojZYXyYbAkaC">P3 定时推送</div><div class="ph-c" data-page-node-id="lco5Z74ohbAHhAsEJlBTts">每日待办、周度整理、情绪周复盘 → 助手开始主动找你</div></div>
+<div class="ph" data-page-node-id="NLUocPEb5eY10mSIfztDO8"><div class="ph-n" data-page-node-id="JAI1keVCT4eRlxDY8eHq6m">P4 加固</div><div class="ph-c" data-page-node-id="uKUiO7YEakARATYC7pB83q">备份、日志监控、可选 HTTPS、记忆归档 → 可长期运行</div></div>
+<div class="note" data-page-node-id="xMDdVFEVpwoTmW3ESXvbVy"><b data-page-node-id="JA3oxYzCxtkA2KXxSpK0nO">为什么先全量上「记录」再上「分析」：</b>mood 的周复盘和 fitness 的次天闭环都依赖历史数据，样本不足时硬出结论只会得到噪声。P1 先把数据攒起来，P2/P3 的分析才有意义。</div>
+
+<h2 data-page-node-id="3VmakVQus8lQApG5HpmWRQ">九、已确认事项（2026-09-08 晚）</h2>
+<table data-page-node-id="sw6bt3CGYioA0osPygAJtc">
+  <tr data-page-node-id="rLvHpV8I75MYOrIZr9vn7X"><th data-page-node-id="MT6CjWHHGhARBKU20AWHz0">#</th><th data-page-node-id="oVFAoUtQat4zJwqXiFP83x">事项</th><th data-page-node-id="CYkemlyE1B91cnSf1XmvKw">决定</th></tr>
+  <tr data-page-node-id="DiCHeY4Hact4qAoQqlCpDc"><td data-page-node-id="D11lSxyAwp5XoREh0YTC8w">1</td><td data-page-node-id="TMn2tebvjfDyCQHLHM7CsS">三个助手在企微里的显示名</td><td data-page-node-id="Dz6cAdMHdOy9o8YbVkxiz7"><b>埼玉教练</b>（fitness）/ <b>阿尼亚督导</b>（mood）/ <b>阿龙管家</b>（life）</td></tr>
+  <tr data-page-node-id="5wiewzuAo5dyGRJAR8aaxR"><td data-page-node-id="xbqSeB1s2WTEFZJu8ErFBf">2</td><td data-page-node-id="WdEKGglGBXnYy7AEvbMKmf">情绪复盘时间</td><td data-page-node-id="H8iqeme9AeJ7ejxk3RoxOq">周日 21:00 ✅</td></tr>
+  <tr data-page-node-id="CYs3ZHmPImWWIdHrfwtrmp"><td data-page-node-id="HnF64rWhoVdmsgmXqJeHB5">3</td><td data-page-node-id="im7IR6852T4yu7iDSeb3zy">健身「3 天没记录轻提醒」开关</td><td data-page-node-id="TmStpOU2tbsRjZnSmEgoVk"><b style="color:#0F6E56">开启</b>（每天 21:30 检查）</td></tr>
+  <tr data-page-node-id="HgWjMx20Kb3PEuxqXXtJQT"><td data-page-node-id="ecfhxOEKS2fmWbKIGJFYmn">4</td><td data-page-node-id="inTVECPImjjYw09DV25n6R">备份方式</td><td data-page-node-id="IdD77VyZtnjKk15NcWErfI">腾讯云 COS（异地容灾；用户原话「备份到云服务器上」，同一台服务器备份无意义，故按 COS 理解）</td></tr>
+</table>
+
+<div class="note"><b>剩余前置事项（不阻塞 P0）：</b>① 企业微信主体注册（自行办理）；② 服务器与回调地址的具体细节在部署步骤中现场决定。</div>
+
+<footer data-page-node-id="x8NepXigPAeXJMmBLQKPwV">个人管家方案 v1.0 · 2026-09-08 · 需求已锁定，进入 P0 实施</footer>
+
+</div>
+</body>
+</html>

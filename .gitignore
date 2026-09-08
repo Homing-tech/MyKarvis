@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+data/
+__pycache__/
+*.pyc
+venv/
+.venv/
+logs/
+*.log
+
+# 含真实凭证的 .env 生成脚本，不入库
+deploy/create_env.sh
