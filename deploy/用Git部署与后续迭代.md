@@ -43,8 +43,10 @@
 1. https://github.com/Homing-tech/MyKarvis.git            ← 原地址
 2. https://ghfast.top/https://github.com/...git           ← 镜像 1
 3. https://gh-proxy.com/https://github.com/...git         ← 镜像 2
-4. https://gh.llkk.cc/https://github.com/...git           ← 镜像 3
+4. https://ghproxy.net/https://github.com/...git          ← 镜像 3
 ```
+
+> 以上镜像于 2026-09-08 实测可达；`gh.llkk.cc`、`gitclone.com` 已挂（502），从候选中移除。
 
 每个候选 120 秒超时，谁先成功就用谁，并 `git remote set-url` 记住它——**以后 `update.sh` 直接用能通的那个，不再每次重试**。
 
@@ -104,15 +106,27 @@ git push -u origin main
 > GitHub → `Settings → Developer settings → Personal access tokens → Tokens (classic)`
 > → 勾 `repo` → 生成后，`git push` 时用户名填 GitHub 账号、**密码填这个 token**。
 
-**服务器（一次）** —— 网页终端粘贴：
+**服务器（一次）** —— 网页终端粘贴。注意：`deploy/create_env.sh` 含真实凭证**不在仓库里**，`.env` 用下面的 heredoc 直接生成：
 
 ```bash
-# 1) 生成 .env（两种方式任选）
-#   A1：把 deploy/create_env.sh 上传到服务器后执行
-sudo bash /tmp/karvis_new/deploy/create_env.sh
-#   A2：或手工 sudo vi /opt/karvis/.env，按 .env.example 填
+# 第 0 步：服务器上还没有脚本时，先从仓库直接引导下载（无需上传压缩包）
+mkdir -p /tmp/karvis_new/deploy && cd /tmp/karvis_new/deploy
+B="https://raw.githubusercontent.com/Homing-tech/MyKarvis/main/deploy"
+for m in "" "https://ghfast.top/" "https://gh-proxy.com/" "https://ghproxy.net/"; do
+  curl -fsSL --connect-timeout 10 -o setup_from_git.sh "${m}${B}/setup_from_git.sh" && break
+done
+ls -l setup_from_git.sh   # 确认文件存在且非空
+```
 
-# 2) 首次拉取 + 部署（自动试镜像、备份、停旧服务、构建、自检）
+```bash
+# 第 1 步：生成 .env（凭证不进 git，只能服务器本地创建）
+sudo mkdir -p /opt/karvis
+sudo tee /opt/karvis/.env >/dev/null <<'KARVIS_ENV_EOF'
+（内容同本地 .env：CorpID / DeepSeek Key / 三个助手的 AgentId、Secret、Token、AESKey / 端口等）
+KARVIS_ENV_EOF
+sudo chmod 600 /opt/karvis/.env
+
+# 第 2 步：首次拉取 + 部署（自动试镜像、备份、停旧服务、构建、自检）
 sudo bash /tmp/karvis_new/deploy/setup_from_git.sh \
   https://github.com/Homing-tech/MyKarvis.git main
 ```
