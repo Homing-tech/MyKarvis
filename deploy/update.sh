@@ -15,7 +15,19 @@ ok()  { echo -e "\033[1;32m[OK]\033[0m $*"; }
 cd "$APP_DIR" || { echo "目录不存在：$APP_DIR"; exit 1; }
 
 log "1/4 拉取最新代码"
-git fetch --all --prune
+CUR_URL="$(git remote get-url origin 2>/dev/null || echo '')"
+FETCHED=0
+for u in "$CUR_URL" "https://ghfast.top/${CUR_URL}" "https://gh-proxy.com/${CUR_URL}"; do
+  [ -z "$u" ] && continue
+  [ "$u" = "https://ghfast.top/" ] && continue
+  echo "  尝试：$u"
+  if timeout 90 git fetch --depth=1 "$u" "+refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null; then
+    ok "拉取成功 ← $u"; FETCHED=1
+    [ "$u" != "$CUR_URL" ] && git remote set-url origin "$u"
+    break
+  fi
+done
+[ "$FETCHED" = "1" ] || { echo -e "\033[1;31m[!!] 所有源都拉不到，保留现有版本继续运行\033[0m"; exit 1; }
 git checkout "$BRANCH"
 git reset --hard "origin/$BRANCH"
 git log --oneline -1

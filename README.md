@@ -66,11 +66,17 @@ ufw allow 9000/tcp
 ### 2. 上传代码
 
 ```bash
+# 方式一：从 git 拉取（推荐，后续更新只需一条 update.sh）
+sudo bash deploy/setup_from_git.sh https://github.com/Homing-tech/MyKarvis.git main
+
+# 方式二：本机 scp
 mkdir -p /opt/karvis
-# 方式一：本机 scp
-scp -r karvis/* root@<服务器IP>:/opt/karvis/
-# 方式二：服务器 git clone（推荐，后续更新方便）
+scp -r karvis/* root@49.235.107.213:/opt/karvis/
+
+# 方式三：网页终端上传 karvis-deploy.tar.gz（见 deploy/部署操作手册_网页终端版.md）
 ```
+
+> GitHub 国内拉取可能超时，`setup_from_git.sh` 已内置 ghfast / gh-proxy 等镜像自动回退。
 
 ### 3. 填 `.env`
 
@@ -215,10 +221,31 @@ karvis/
 
 ## 七、用 Git 部署（推荐长期方案）
 
-日常迭代：`git push` → 服务器 `sudo bash /opt/karvis/deploy/update.sh`（拉代码 → 重建 → 自检 → 打日志，不动 `.env` 和 `data/`）。
+**仓库**：`https://github.com/Homing-tech/MyKarvis.git`（分支 `main`，**必须设为 Private**）
 
-首次从 git 部署：`sudo bash deploy/setup_from_git.sh <仓库地址> main`（会自动备份旧项目、停旧服务、构建、自检）。
-服务器生成 `.env`：`sudo bash deploy/create_env.sh`（该脚本含真实凭证，已在 `.gitignore` 中，不入库）。
+**本地推送**
+
+```bash
+cd karvis && git add -A && git commit -m "改了什么" && git push
+```
+
+**服务器首次部署**
+
+```bash
+sudo bash deploy/setup_from_git.sh https://github.com/Homing-tech/MyKarvis.git main
+```
+
+（自动：试镜像源拉代码 → 备份旧项目 → 停旧服务 → 构建 → 自检。国内连 GitHub 不稳，脚本内置 ghfast / gh-proxy / gh.llkk.cc 三个镜像回退，谁通记住谁。）
+
+**服务器日常更新**
+
+```bash
+sudo bash /opt/karvis/deploy/update.sh
+```
+
+拉代码 → 重建容器 → `/health` 自检 → 打最近 15 行日志。**不动 `.env`、不动 `data/`**（健身/情绪/事项记录都在那）。
+
+**服务器生成 `.env`**：`sudo bash deploy/create_env.sh`（该脚本含真实凭证，已在 `.gitignore` 中，不入库）。
 
 完整说明见 `deploy/用Git部署与后续迭代.md`。
 

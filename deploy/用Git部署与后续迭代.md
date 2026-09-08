@@ -18,15 +18,37 @@
 
 ---
 
-## 二、代码仓库怎么选（影响服务器拉取速度）
+## 二、本次选定：GitHub
+
+**仓库**：`https://github.com/Homing-tech/MyKarvis.git`　**默认分支**：`main`
 
 | 平台 | 服务器拉取速度 | 说明 |
 |---|---|---|
-| **Gitee（码云）** ⭐ | 快、稳定 | 国内直连，私有仓库免费，最省心 |
-| **腾讯云 CODING DevOps** ⭐ | 最快 | 和轻量服务器同机房生态，还自带 CI，可做「push 自动部署」 |
-| GitHub | 时快时慢 | 国内轻量机拉取偶尔超时；仓库设私有，配 deploy key |
+| **Gitee（码云）** | 快、稳定 | 国内直连，私有仓库免费 |
+| **腾讯云 CODING DevOps** | 最快 | 和轻量服务器同机房生态，自带 CI |
+| **GitHub**（本次选择） | 时快时慢 | 国内轻量机拉取偶尔超时，已加镜像回退 |
 
-> 选 Gitee 或 CODING，能省掉后面一堆网络折腾。GitHub 也能用，就是偶发抽风。
+### GitHub 的两个前提（务必照做）
+
+**① 仓库必须设为 Private**
+
+代码目录虽已把 `.env` 排除，但 `.env.example` 之外的东西仍可能带个人信息（`assistants/_shared/profile.md` 里有你的作息与沟通偏好）。设私有路径：
+`Settings → Danger Zone → Change repository visibility → Private`
+
+**② 服务器拉取走镜像回退（已内置）**
+
+国内轻量直连 `github.com` 失败率不低，所以 `setup_from_git.sh` / `update.sh` 都做了候选源逐个试：
+
+```
+1. https://github.com/Homing-tech/MyKarvis.git            ← 原地址
+2. https://ghfast.top/https://github.com/...git           ← 镜像 1
+3. https://gh-proxy.com/https://github.com/...git         ← 镜像 2
+4. https://gh.llkk.cc/https://github.com/...git           ← 镜像 3
+```
+
+每个候选 120 秒超时，谁先成功就用谁，并 `git remote set-url` 记住它——**以后 `update.sh` 直接用能通的那个，不再每次重试**。
+
+> 如果四个都失败（极端情况），兜底方案仍是传压缩包：见 `deploy/部署操作手册_网页终端版.md`。
 
 ---
 
@@ -43,15 +65,19 @@
 
 ### 方案 A：Git 全流程（推荐长期用）
 
-**本地（一次）**
+**本地（已完成 remote 配置，只差推送）**
 
 ```bash
-cd karvis
-# 1) 在 Gitee/CODING/GitHub 上新建一个空仓库（私有），拿到地址
-git remote add origin <仓库地址>
-git branch -M main
+cd "C:\Users\homingliang\WorkBuddy\2026-09-08-19-28-56\karvis"
+
+# 首次推送（会弹出浏览器让你登录 GitHub，登录一次后本机永久记住）
 git push -u origin main
 ```
+
+> 本机已装 Git Credential Manager 2.9.0，push 时会自动弹浏览器授权，不用手工填 token。
+> 若弹窗没出来，改用 Personal Access Token：
+> GitHub → `Settings → Developer settings → Personal access tokens → Tokens (classic)`
+> → 勾 `repo` → 生成后，`git push` 时用户名填 GitHub 账号、**密码填这个 token**。
 
 **服务器（一次）** —— 网页终端粘贴：
 
@@ -61,13 +87,17 @@ git push -u origin main
 sudo bash /tmp/karvis_new/deploy/create_env.sh
 #   A2：或手工 sudo vi /opt/karvis/.env，按 .env.example 填
 
-# 2) 首次拉取 + 部署（会自动备份、停旧服务、构建、自检）
-sudo bash /tmp/karvis_new/deploy/setup_from_git.sh <仓库地址> main
+# 2) 首次拉取 + 部署（自动试镜像、备份、停旧服务、构建、自检）
+sudo bash /tmp/karvis_new/deploy/setup_from_git.sh \
+  https://github.com/Homing-tech/MyKarvis.git main
 ```
 
-> 私有仓库用 HTTPS 时，服务器会要账号密码（Gitee 建议用「私人令牌」当密码）；
-> 用 SSH 则需要在服务器生成 key 并把公钥加到仓库的 deploy key：
-> `ssh-keygen -t ed25519 -N "" -f ~/.ssh/karvis_deploy && cat ~/.ssh/karvis_deploy.pub`
+> 仓库是私有的话，用 SSH 更省心（免每次输密码）：
+> 服务器执行 `ssh-keygen -t ed25519 -N "" -f ~/.ssh/karvis_deploy && cat ~/.ssh/karvis_deploy.pub`
+> 把输出粘到 GitHub 仓库 `Settings → Deploy keys → Add deploy key`（勾 Allow write 与否都行，只读够用），
+> 然后用 `git@github.com:Homing-tech/MyKarvis.git` 作为地址即可——脚本会自动生成它的镜像候选。
+>
+> 若坚持 HTTPS + 私有仓库：密码处填 Personal Access Token（同上）。
 
 **以后每次改代码（本地）**
 
@@ -93,7 +123,7 @@ sudo bash /opt/karvis/deploy/update.sh
 ```bash
 cd /opt/karvis
 git init -b main
-git remote add origin <仓库地址>
+git remote add origin https://github.com/Homing-tech/MyKarvis.git
 git fetch origin && git reset --hard origin/main   # 让服务器目录变成 git 工作区
 ```
 
@@ -116,7 +146,7 @@ git fetch origin && git reset --hard origin/main   # 让服务器目录变成 gi
 
 | 现象 | 原因 | 处理 |
 |---|---|---|
-| 服务器 `git clone` 超时 | GitHub 国内偶发 | 换 Gitee/CODING，或给 git 配代理 |
+| 服务器 `git clone` 超时 | GitHub 国内偶发 | 脚本已内置 3 个镜像自动回退；都失败就临时用压缩包部署 |
 | 脚本报 `bad interpreter` | 文件变 CRLF 了 | 已用 `autocrlf=input` 防住；真出现就 `sed -i 's/\r$//' xxx.sh` |
 | `update.sh` 后助手行为没变 | 浏览器/企微缓存，或改的是 `AGENTS.md` 但没 push | 确认 `git log` 最新，且容器已重建 |
 | push 被拒 | 本地没配 remote 或分支名不一致 | `git remote -v` 检查；分支统一 `main` |

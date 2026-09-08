@@ -50,12 +50,46 @@ ok "端口 ${PORT} 已释放"
 # ------------------------------------------------------------
 log "3/5 拉取代码到 ${APP_DIR}"
 command -v git >/dev/null || { warn "服务器没装 git：apt-get install -y git"; exit 1; }
+
+# --- GitHub 加速：国内轻量机直连 github.com 常超时，逐个候选试 ---
+# 只对 github.com 加镜像前缀；Gitee/CODING 等国内源不需要
+build_mirrors() {
+  local r="$1"
+  echo "$r"
+  case "$r" in
+    https://github.com/*)
+      echo "https://ghfast.top/${r}"
+      echo "https://gh-proxy.com/${r}"
+      echo "https://gh.llkk.cc/${r}"
+      ;;
+    git@github.com:*)
+      local p="${r#git@github.com:}"; p="${p%.git}"
+      echo "https://github.com/${p}.git"
+      echo "https://ghfast.top/https://github.com/${p}.git"
+      ;;
+  esac
+}
+
 mkdir -p "$APP_DIR"
 if [ -d "$APP_DIR/.git" ]; then
-  cd "$APP_DIR" && git fetch --all --prune && git checkout "$BRANCH" && git reset --hard "origin/$BRANCH"
+  cd "$APP_DIR"
+  git fetch --all --prune --depth=1 2>/dev/null || warn "fetch 失败，继续用本地已有代码"
+  git checkout "$BRANCH" && git reset --hard "origin/$BRANCH"
 else
   rm -rf "${APP_DIR:?}"/* 2>/dev/null || true
-  git clone -b "$BRANCH" "$REPO" "$APP_DIR"
+  CLONED=0
+  while IFS= read -r m; do
+    [ -z "$m" ] && continue
+    echo "  尝试：$m"
+    if timeout 120 git clone -b "$BRANCH" --depth 1 "$m" "$APP_DIR" 2>/dev/null; then
+      ok "克隆成功 ← $m"; CLONED=1
+      # 记住这次能用的源，以后 update.sh 直接复用
+      cd "$APP_DIR" && git remote set-url origin "$m"
+      break
+    fi
+    rm -rf "${APP_DIR:?}"/* 2>/dev/null || true
+  done < <(build_mirrors "$REPO")
+  [ "$CLONED" = "1" ] || { warn "所有源都克隆失败。临时方案：本地打包上传，见 deploy/部署操作手册_网页终端版.md"; exit 1; }
 fi
 cd "$APP_DIR" && git log --oneline -1
 ok "代码已就位"
