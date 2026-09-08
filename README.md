@@ -213,7 +213,18 @@ karvis/
 
 ---
 
-## 七、安全须知
+## 七、用 Git 部署（推荐长期方案）
+
+日常迭代：`git push` → 服务器 `sudo bash /opt/karvis/deploy/update.sh`（拉代码 → 重建 → 自检 → 打日志，不动 `.env` 和 `data/`）。
+
+首次从 git 部署：`sudo bash deploy/setup_from_git.sh <仓库地址> main`（会自动备份旧项目、停旧服务、构建、自检）。
+服务器生成 `.env`：`sudo bash deploy/create_env.sh`（该脚本含真实凭证，已在 `.gitignore` 中，不入库）。
+
+完整说明见 `deploy/用Git部署与后续迭代.md`。
+
+---
+
+## 八、安全须知
 
 - `.env` 含企业微信密钥，**绝不入库**，权限 600。
 - 回调走 HTTP + 裸 IP：消息体已用 EncodingAESKey 加密，但如需 HTTPS，后续加域名 + Caddy 即可（需备案）。
