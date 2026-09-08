@@ -26,8 +26,10 @@ warn() { echo -e "\033[1;33m[!!]\033[0m $*"; }
 log "1/5 备份旧 Karvis"
 mkdir -p "$BK_DIR"
 for d in /opt/karvis /root/my-karvis /home/ubuntu/my-karvis; do
-  [ -e "$d" ] && tar -czf "$BK_DIR/karvis_old_${TS}$(echo "$d" | tr '/' '_').tar.gz" "$d" 2>/dev/null \
-    && ok "已备份 $d"
+  if [ -e "$d" ]; then
+    tar -czf "$BK_DIR/karvis_old_${TS}$(echo "$d" | tr '/' '_').tar.gz" "$d" 2>/dev/null \
+      && ok "已备份 $d"
+  fi
 done
 
 # ------------------------------------------------------------
@@ -42,9 +44,15 @@ ok "旧容器已清理"
 
 if ss -lntp 2>/dev/null | grep -q ":${PORT} "; then
   PID=$(ss -lntp | grep ":${PORT} " | grep -oP 'pid=\K[0-9]+' | head -1 || true)
-  [ -n "${PID:-}" ] && { kill "$PID" 2>/dev/null || true; sleep 2; ss -lntp | grep -q ":${PORT} " && kill -9 "$PID" 2>/dev/null || true; ok "已终止进程 $PID"; }
+  if [ -n "${PID:-}" ]; then
+    kill "$PID" 2>/dev/null || true; sleep 2
+    if ss -lntp 2>/dev/null | grep -q ":${PORT} "; then kill -9 "$PID" 2>/dev/null || true; fi
+    ok "已终止进程 $PID"
+  fi
 fi
-ss -lntp 2>/dev/null | grep -q ":${PORT} " && { warn "端口 ${PORT} 仍被占用，暂停"; ss -lntp | grep ":${PORT} "; exit 1; }
+if ss -lntp 2>/dev/null | grep -q ":${PORT} "; then
+  warn "端口 ${PORT} 仍被占用，暂停"; ss -lntp | grep ":${PORT} "; exit 1
+fi
 ok "端口 ${PORT} 已释放"
 
 # ------------------------------------------------------------
@@ -58,9 +66,15 @@ build_mirrors() {
   echo "$r"
   case "$r" in
     https://github.com/*)
+      # 以下镜像均于 2026-09-08 实测可达（git-upload-pack 返回 200）
+      # 注意：镜像站无法转发凭证，只适用于「公开仓库」
       echo "https://ghfast.top/${r}"
       echo "https://gh-proxy.com/${r}"
-      echo "https://gh.llkk.cc/${r}"
+      echo "https://ghproxy.net/${r}"
+      # 私有仓库兜底：带 token 直连（GITHUB_TOKEN 为空时不会输出这一行）
+      if [ -n "${GITHUB_TOKEN:-}" ]; then
+        echo "https://${GITHUB_TOKEN}@${r#https://}"
+      fi
       ;;
     git@github.com:*)
       local p="${r#git@github.com:}"; p="${p%.git}"
@@ -79,7 +93,7 @@ else
   rm -rf "${APP_DIR:?}"/* 2>/dev/null || true
   CLONED=0
   while IFS= read -r m; do
-    [ -z "$m" ] && continue
+    if [ -z "$m" ]; then continue; fi
     echo "  尝试：$m"
     if timeout 120 git clone -b "$BRANCH" --depth 1 "$m" "$APP_DIR" 2>/dev/null; then
       ok "克隆成功 ← $m"; CLONED=1

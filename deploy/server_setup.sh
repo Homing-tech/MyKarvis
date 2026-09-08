@@ -68,7 +68,7 @@ if command -v ss >/dev/null && ss -lntp 2>/dev/null | grep -q ":${PORT} "; then
   if [ -n "${PID:-}" ]; then
     warn "端口 ${PORT} 仍被 PID $PID 占用：$(ps -p "$PID" -o cmd= 2>/dev/null)"
     kill "$PID" 2>/dev/null || true; sleep 2
-    ss -lntp | grep -q ":${PORT} " && { kill -9 "$PID" 2>/dev/null || true; sleep 1; }
+    if ss -lntp 2>/dev/null | grep -q ":${PORT} "; then kill -9 "$PID" 2>/dev/null || true; sleep 1; fi
     ok "已终止进程 $PID"
   fi
 fi

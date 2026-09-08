@@ -16,14 +16,18 @@ cd "$APP_DIR" || { echo "目录不存在：$APP_DIR"; exit 1; }
 
 log "1/4 拉取最新代码"
 CUR_URL="$(git remote get-url origin 2>/dev/null || echo '')"
+# 私有仓库兜底：镜像站转发不了凭证，只能带 token 直连
+TOKEN_URL=""
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+  case "$CUR_URL" in https://github.com/*) TOKEN_URL="https://${GITHUB_TOKEN}@${CUR_URL#https://}";; esac
+fi
 FETCHED=0
-for u in "$CUR_URL" "https://ghfast.top/${CUR_URL}" "https://gh-proxy.com/${CUR_URL}"; do
-  [ -z "$u" ] && continue
-  [ "$u" = "https://ghfast.top/" ] && continue
+for u in "$CUR_URL" "https://ghfast.top/${CUR_URL}" "https://gh-proxy.com/${CUR_URL}" "https://ghproxy.net/${CUR_URL}" "$TOKEN_URL"; do
+  if [ -z "$u" ] || [ "$u" = "https://ghfast.top/" ]; then continue; fi
   echo "  尝试：$u"
   if timeout 90 git fetch --depth=1 "$u" "+refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null; then
     ok "拉取成功 ← $u"; FETCHED=1
-    [ "$u" != "$CUR_URL" ] && git remote set-url origin "$u"
+    if [ "$u" != "$CUR_URL" ]; then git remote set-url origin "$u"; fi
     break
   fi
 done
@@ -42,7 +46,7 @@ fi
 sleep 3
 
 log "3/4 自检"
-curl -fsS "http://127.0.0.1:${PORT}/health" && echo
+if curl -fsS "http://127.0.0.1:${PORT}/health"; then echo; ok "健康检查通过"; else warn "健康检查未通过，看下面日志"; fi
 $DC ps
 
 log "4/4 最近日志"

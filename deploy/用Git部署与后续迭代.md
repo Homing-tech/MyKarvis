@@ -50,6 +50,31 @@
 
 > 如果四个都失败（极端情况），兜底方案仍是传压缩包：见 `deploy/部署操作手册_网页终端版.md`。
 
+### 私有还是公开？这决定镜像还能不能用
+
+**镜像站转发不了凭证，所以私有仓库用不了上面任何一个镜像。**
+
+| | 公开仓库 | 私有仓库 |
+|---|---|---|
+| 服务器拉取 | 直连失败还有 3 个镜像兜底，基本不会卡 | 镜像全废，只能直连 GitHub 或带 token |
+| 泄露风险 | 代码结构可见；**无任何密钥**（`.env` 已 ignore）<br>唯一个人信息是 profile.md 里的称呼/作息/沟通偏好 | 需额外配 token 或 deploy key |
+
+**建议：先设 Public 把链路跑通**，等更新迭代顺了，再决定要不要转私有。真要转私有，两条路：
+
+```bash
+# 方式一：Deploy Key（SSH，推荐）
+ssh-keygen -t ed25519 -N "" -f ~/.ssh/karvis_deploy
+cat ~/.ssh/karvis_deploy.pub
+# 粘到 GitHub 仓库 → Settings → Deploy keys → Add deploy key
+sudo bash deploy/setup_from_git.sh git@github.com:Homing-tech/MyKarvis.git main
+
+# 方式二：HTTPS + Personal Access Token
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
+sudo -E GITHUB_TOKEN="$GITHUB_TOKEN" bash deploy/setup_from_git.sh \
+  https://github.com/Homing-tech/MyKarvis.git main
+# 脚本识别到 GITHUB_TOKEN 后，会追加一个「带 token 直连」的候选源
+```
+
 ---
 
 ## 三、已经在本地做过的事
