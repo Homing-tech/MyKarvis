@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="8CCoLeFrtqVcbmxBFYJmPR">
+<head data-page-node-id="jq143TJ2f1POpu8wF2q16g">
+<meta charset="UTF-8" data-page-node-id="4lbUVtDT1C2tQ1EJ8w8Mxr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="F8Hoa3IkSukEScDNDm5CMc">
+<title>个人 AI 管家部署 SOP（可复用手册）</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1f2328; --ink-2:#4a5058; --ink-3:#6b7280;
+    --line:#e5e7eb; --accent:#2563eb; --accent-soft:#eff6ff;
+    --ok:#0f766e; --ok-bg:#ecfdf5; --warn:#b45309; --warn-bg:#fffbeb;
+    --danger:#b91c1c; --danger-bg:#fef2f2; --code-bg:#f3f4f6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.7;font-size:15px;}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 72px;}
+  header{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border-radius:14px;
+    padding:28px 28px 24px;margin-bottom:24px;}
+  header h1{margin:0 0 6px;font-size:26px;letter-spacing:.5px;}
+  header p{margin:0;opacity:.9;font-size:14px;}
+  h2{font-size:20px;margin:34px 0 12px;padding-left:11px;border-left:4px solid var(--accent);}
+  h3{font-size:16px;margin:22px 0 8px;color:var(--ink-2);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+  table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:14px;background:var(--card);}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;}
+  th{background:#f1f5f9;font-weight:600;color:var(--ink-2);}
+  tbody tr:nth-child(even){background:#fafbfc;}
+  code{background:var(--code-bg);padding:2px 6px;border-radius:5px;font-size:13px;
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;color:#0f172a;}
+  pre{background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:10px;overflow-x:auto;font-size:13px;line-height:1.65;}
+  pre code{background:transparent;color:inherit;padding:0;}
+  ul,ol{padding-left:22px;margin:8px 0;}
+  li{margin:5px 0;}
+  .tip{border-left:4px solid var(--accent);background:var(--accent-soft);padding:11px 14px;border-radius:8px;margin:12px 0;font-size:14px;}
+  .warn{border-left:4px solid var(--warn);background:var(--warn-bg);padding:11px 14px;border-radius:8px;margin:12px 0;font-size:14px;}
+  .danger{border-left:4px solid var(--danger);background:var(--danger-bg);padding:11px 14px;border-radius:8px;margin:12px 0;font-size:14px;}
+  .ok{border-left:4px solid var(--ok);background:var(--ok-bg);padding:11px 14px;border-radius:8px;margin:12px 0;font-size:14px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:6px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px;}
+  .kpi .k{font-size:12px;color:var(--ink-3);margin-bottom:3px;}
+  .kpi .v{font-size:15px;font-weight:600;word-break:break-all;}
+  .pill{display:inline-block;background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe;
+    border-radius:999px;padding:1px 10px;font-size:12px;margin-right:6px;}
+  .tl{position:relative;padding-left:18px;}
+  .tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line);}
+  .tl .item{position:relative;margin-bottom:10px;}
+  .tl .item::before{content:"";position:absolute;left:-17px;top:8px;width:9px;height:9px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 0 3px #dbeafe;}
+  .tl .t{font-weight:600;font-size:13px;color:var(--accent);}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-3);font-size:13px;}
+  a{color:var(--accent);}
+  @media print{body{background:#fff}.card,table{break-inside:avoid}header{background:#2563eb!important;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body data-page-node-id="ZjuTEJSHgDMw9DStJpIeme">
+<div class="wrap" data-page-node-id="EsSuj3dnWQLRaX1Vzg78m7">
+
+<header data-page-node-id="nKGYtqCVoDOn526SiUZbeR">
+  <h1 data-page-node-id="05tGmhaWd36i5crLLi6GFp">个人 AI 管家部署 SOP</h1>
+  <p data-page-node-id="Fjlj03l914RGc6SkTlrZjZ">企业微信自建应用 ×N ＋ 云服务器 ＋ 自研网关 ＋ DeepSeek ｜ 2026-09-08 三助手全量跑通</p>
+</header>
+
+<h2 data-page-node-id="lVxBBMzaL02xH78Ztc4XAa">0. 一页速览</h2>
+<div class="grid" data-page-node-id="JHhZF6IYsUFhoMJpME9V9z">
+  <div class="kpi" data-page-node-id="WCQOovwlA5p8FmiBg9SYNx"><div class="k" data-page-node-id="X7DLGaRnJZKRgTa73vnXdY">入口形态</div><div class="v" data-page-node-id="2TziRxSTkjGPSsIxhWZGHQ">企微自建应用 ×3</div></div>
+  <div class="kpi" data-page-node-id="CO7c8Nashs2wqWssvYFfAX"><div class="k" data-page-node-id="uhSMBrj3kJguVlpfMEJiZg">助手</div><div class="v" data-page-node-id="wgPz0RjT6CBfYYCBwT2XCx">阿龙管家 / 埼玉教练 / 阿尼亚督导</div></div>
+  <div class="kpi" data-page-node-id="eoTMl5WlsPY8fY406LPiuc"><div class="k" data-page-node-id="2gZNXvCleEzNToDZdkJH0A">服务器</div><div class="v" data-page-node-id="Q5xCRi5b9LYRLOaHxbalgn">腾讯云轻量 49.235.107.213</div></div>
+  <div class="kpi" data-page-node-id="byLvixZs3TLbmgSj0XuOCD"><div class="k" data-page-node-id="aSw0uagzEHec4rC3oGrTRg">端口 / 回调</div><div class="v" data-page-node-id="Ke4JbiLWT4xaFMgA3CVMpI">9000 ／ /wecom/{agent}</div></div>
+  <div class="kpi" data-page-node-id="tjzLHwlbsCpCsO24XbutZ0"><div class="k" data-page-node-id="00Wa4le4vN9fL49cJ5vnBY">大脑</div><div class="v" data-page-node-id="fOUTbmDMZu1TS7RxQASSc4">FastAPI 网关 + DeepSeek</div></div>
+  <div class="kpi" data-page-node-id="kbhQQtmxiDcSbfKkAk45Zk"><div class="k" data-page-node-id="grLrL3Fhin2SPlRJuB0VHn">安装目录</div><div class="v" data-page-node-id="8XNAR02pY87jOnwULHmwaO">/opt/karvis（.env 600）</div></div>
+</div>
+<div class="ok" data-page-node-id="F0jpR2FIIYrbBBpmhpa4wP"><b data-page-node-id="JgB8pwRXvpe0Wu0IWg7Cm1">一句话原理</b>：每个助手 = 一个企微自建应用 = 一条独立回调路径 = 一套独立 Token/AESKey。发到哪个应用就是哪个助手，<b data-page-node-id="AgPizy1YH19DuJ1rEQuJzf">零命令语法</b>。</div>
+
+<h2 data-page-node-id="EG2oEiJcnk4ygYklbBOi3c">1. 关键决策（为什么这么做）</h2>
+<table data-page-node-id="fcVbbkc6JZTsIYIjhXEzWI">
+<thead data-page-node-id="HK61AXv9J8zd54ijFATZKi"><tr data-page-node-id="kLKxLjiRK0qooQtqKEFjpa"><th style="width:16%" data-page-node-id="jzvovEEE2V4wlLZCLNx7fw">决策</th><th style="width:34%" data-page-node-id="jYKE6pDCyVKUebhaWm2h7x">结论</th><th data-page-node-id="S9UXrkcfSgeea6dFJl85iK">依据</th></tr></thead>
+<tbody data-page-node-id="I1JAiuKPpJjLufd6QSBegy">
+<tr data-page-node-id="DtPiKgdOtCG6ow1OliW2RJ"><td data-page-node-id="YdQOaioMwp7tkQOv8xA45R">微信入口</td><td data-page-node-id="csWAefirkVDvsKTThaIlKd">企微自建应用，而非公众号</td><td data-page-node-id="YSQad2CZu3Pn5dXCPpDCje">公众号强制 80/443 + 备案域名；企微允许任意端口</td></tr>
+<tr data-page-node-id="VVHFQGJbGAQFYmHEJ8QggA"><td data-page-node-id="r3y28Qvnf62dERrTytoKsC">域名 / 备案</td><td data-page-node-id="onQ21bmgAtEQe0AKJdjLkh"><b data-page-node-id="H4dXC2IRZeFiQMLILh2vYW">不需要</b></td><td data-page-node-id="RvPHC6Hi92fE4b1gd2GTcu">自建应用回调可直接 <code data-page-node-id="zSuKsWkdRxxj4J9HcnIspc">http://公网IP:端口/path</code>（上游《回调URL配置指南》方案 B）</td></tr>
+<tr data-page-node-id="iZh7jP10o2aGEDLduLSYsT"><td data-page-node-id="JeMb3X4cp661wtrq4q1k88">大脑实现</td><td data-page-node-id="XzuEnw2RY6YImU3397Nx3q">自研轻量内核，不用 Pi</td><td data-page-node-id="wbDeMss0et7G5exulHX0xG">4G 内存跑不动常驻 Pi 子进程</td></tr>
+<tr data-page-node-id="gx8HYWtskfH0Gay0yqkAt6"><td data-page-node-id="CXJSCb84rDBCEgVGoH6YV1">记忆存储</td><td data-page-node-id="rDoroEYDLtPhAsQBF5Rl6F">SQLite + FTS5</td><td data-page-node-id="rDDU33eX04495fWDOhvv8d">上千 md 检索会慢；结构化记录 + 每日 md 双写</td></tr>
+<tr data-page-node-id="0R1xM43wHE9JbZMjQKbjD9"><td data-page-node-id="94rcVHCE89asrBga8Tnywn">超时处理</td><td data-page-node-id="P9g1vTytBOFbEp1ihdZZzG">先回 success，再异步处理并主动推送</td><td data-page-node-id="QfnFa9A4BrpbjHlJA7NAR7">企微要求 5 秒内响应，大模型必然超时</td></tr>
+</tbody>
+</table>
+
+<h2 data-page-node-id="vI1hPLg27WopwfxJeOzZIM">2. 前置清单</h2>
+<div class="card" data-page-node-id="xshb5sucQ7zlmnEkTH9xHM">
+<h3 data-page-node-id="OGrIgTYyW3Oxk0UOsEZy8x">账号侧</h3>
+<ul data-page-node-id="7LDl7HIhbIxBBZPMwbjFOh">
+<li data-page-node-id="xSE8KWbZV75cQaJRE15Sxq">企业微信组织（个人可注册，无需营业执照）→ work.weixin.qq.com</li>
+<li data-page-node-id="W0UViWVcBoZFzBnvlwHDZ6">DeepSeek API Key（<b data-page-node-id="VCZITTIWRmjRHZfw00PJY8">35 字符</b>）→ platform.deepseek.com/api_keys</li>
+</ul>
+<h3 data-page-node-id="sSE9ZGDmGqVy3VSwhcT8dk">服务器侧</h3>
+<ul data-page-node-id="PGv0L1AyxzKXCEDTEoorTp">
+<li data-page-node-id="aia8QKkKLkh7aligYQB4IF">公网 IP（用 <code data-page-node-id="CHNBGc13yp6Sht5cjFDLjs">curl -4 ifconfig.me</code> 查，<b data-page-node-id="WQwTu4n5TacmFucjK1EZYb">不要用 ip addr</b>，那是内网 IP）</li>
+<li data-page-node-id="97cy9QS36lRxAzomBLrfZi">防火墙放行目标端口（腾讯云：控制台 → 防火墙 → TCP 9000）</li>
+<li data-page-node-id="qgDMyukDb8ih3ScBXzT3zn">Docker CE + docker compose；磁盘剩余 ≥ 3G</li>
+</ul>
+</div>
+
+<h3 data-page-node-id="XnZAcFJolqVfXW8OhTYEOm">凭证总表（每个应用 4 项，缺一该助手直接 404「未配置」）</h3>
+<table data-page-node-id="zWFg9s5wEzgutA7EcVEsxQ">
+<thead data-page-node-id="RBgBwMEwHcq9iut9E64EJb"><tr data-page-node-id="SwY9VFjDHDiaqiBAQecwxd"><th style="width:34%" data-page-node-id="rJnfhavljCvzmRRbjVJyx4">变量</th><th style="width:36%" data-page-node-id="bOCnXZe91ezUJHTgGI2m7F">来源</th><th data-page-node-id="YriZFpZusGP5LU7NUxjGWd">校验</th></tr></thead>
+<tbody data-page-node-id="UYGQXVHlALxh4bHzM0mNk3">
+<tr data-page-node-id="349uD7pskkoHxZvFUa4So0"><td data-page-node-id="Zeop9QPgMzu6fpgo9KBMY3"><code data-page-node-id="8xnEBdc71gY1IlQu6J5jpe">WECOM_CORP_ID</code></td><td data-page-node-id="F6SYJYNBk8R8P9WgX4ZHp5">我的企业 → 企业信息</td><td data-page-node-id="hh1ObKQGtkZCXBlG3tJYkj">ww 开头</td></tr>
+<tr data-page-node-id="XsxQJtUYHHxKkk8wrFvsEH"><td data-page-node-id="1DDWp559bkDUvKliTdIec7"><code data-page-node-id="xOjIeC6uIiIjx0V5N40p9S">WECOM_{KEY}_AGENT_ID</code></td><td data-page-node-id="nqo5non29VhXvFlVUaFmg6">应用详情页</td><td data-page-node-id="2WxiVNRXneZOGQcqtr4WeB">纯数字</td></tr>
+<tr data-page-node-id="HhcH3cGIXxx6tckg0Q28ql"><td data-page-node-id="q2pMyGRHmyC4cegFsH3pEE"><code data-page-node-id="UEYhFa32We14AfJA6NFXnb">WECOM_{KEY}_SECRET</code></td><td data-page-node-id="rpb2kAcJD7eBp4jzrpqmFf">应用详情 → Secret 查看</td><td data-page-node-id="97JdndG0Zisy7kaYyKAkZg"><b data-page-node-id="4yK3Ru5luwNEQTNcljCW7M">只展示一次</b>；复制常带前导 tab，需 strip</td></tr>
+<tr data-page-node-id="JDOF5WfFC8eAnxNSHjNjcO"><td data-page-node-id="f9bqpMnsKwn4rlfCFijt0v"><code data-page-node-id="r6hQ3iqF7bbsP1bFKcs1Bt">WECOM_{KEY}_TOKEN</code></td><td data-page-node-id="Y46SJXGS6nDBzraHLPCxK3">接收消息 → 随机获取</td><td data-page-node-id="YL2pX7hAaUCNizDYLbfhdI">3–32 位，可反复查看</td></tr>
+<tr data-page-node-id="IHsDFWBcZZBsC1W9jQpryf"><td data-page-node-id="wVkCKRWoJ5ORkEa87OmSb0"><code data-page-node-id="yMRuVEsnn3SQduxuUSqdIY">WECOM_{KEY}_AESKEY</code></td><td data-page-node-id="0i7ONbGQzyqIWymDI8imMg">接收消息 → 随机获取</td><td data-page-node-id="q0HEDnoF18EVEzIZm85NVi"><b data-page-node-id="c8LbUn70kTzhaydr5OMvVM">必须 43 位</b>，可反复查看</td></tr>
+</tbody>
+</table>
+<p data-page-node-id="9TdFenpjgLpa1CgoL4KLWW"><span class="pill" data-page-node-id="jXEr3NJESCu5Ao0czvbfF0">{KEY} = LIFE</span><span class="pill" data-page-node-id="u9ZzLuqqHzaVR7CK86ZfGF">FITNESS</span><span class="pill" data-page-node-id="RePLF9oQc7qK2G3NoPJV61">MOOD</span> 与内部 ID <code data-page-node-id="QSRNHyla5LulLlHcudJh1w">life/fitness/mood</code> 对应（见 <code data-page-node-id="nD9tJrsLtBInASOGRBg2Rh">gateway/config.py</code>）。</p>
+
+<h2 data-page-node-id="YDEjyjVUtwZ703TgbCGbBm">3. 第一步：企微侧配置（浏览器）</h2>
+<ol data-page-node-id="e9arPxiBLqGQ7snDtHYbYn">
+<li data-page-node-id="kiJDDYs5icnj0bC4GdBEFK">注册企业微信 → 记下 <b data-page-node-id="eruDCv92vz4pkriJw48b8w">企业 ID（CorpID）</b></li>
+<li data-page-node-id="m94WDgwy45wc0onjl16eYU">应用管理 → 自建 → 创建应用，逐个建（本次 3 个）<br data-page-node-id="fke4xNVCwIpIgWe0HHqfYV">
+  <span class="warn" style="display:block;margin-top:8px" data-page-node-id="WWhOC11MwwrlD5DZEqzDdX">⚠️ <b data-page-node-id="wbBAZTwt00QgtfbiYHwyl2">可见范围必须把自己加进去</b>，否则应用不出现在你的企微 / 微信里</span></li>
+<li data-page-node-id="M7o0QFF7FSH9sTutLNpeBZ">每个应用详情页记下 <b data-page-node-id="mjVx4iFRzrQbpKk8EIYSDz">AgentId</b>；点 <b data-page-node-id="c8P0KoCplDpBYlFI6FVLqE">Secret → 查看</b>（扫码验证）→ 立即保存</li>
+<li data-page-node-id="q916zQAgv4Fwifq8sABtCE">接收消息 → 设置 API 接收 → 随机获取 → 得到 <b data-page-node-id="I2GaYpXtv8EjB6cKs2HAM9">Token</b> 与 <b data-page-node-id="HzJTC8ggX2i3Wqw3XyqtkI">EncodingAESKey</b></li>
+<li data-page-node-id="s0ZfZmueQMw2G6xTRDBcej"><b data-page-node-id="CQkNLDBDvDwqPTmp00yDgt">URL 先空着不要点保存</b>（见第 6 节，顺序错了必然失败）</li>
+<li data-page-node-id="F6Q0VuvcIlZLfXumRiaid5">我的企业 → 微信插件 → 邀请关注二维码，微信扫码 → 之后在微信里直接和助手聊天，可置顶</li>
+</ol>
+<div class="tip" data-page-node-id="DDmwN1JXtVxoAm53q3gTUI">上游参考：<a href="https://github.com/sameencai/KarvisForYou/blob/main/docs/%E4%BC%81%E5%BE%AE%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA.md" data-page-node-id="DZalpRrBCtgChrZit7wGGW">企微注册与应用创建</a> ｜ <a href="https://github.com/sameencai/KarvisForYou/blob/main/docs/%E4%BC%81%E5%BE%AE%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97.md" data-page-node-id="dWRRt6LPwoQWGGZDjwi6PH">企微应用配置指南</a></div>
+
+<h2 data-page-node-id="3ixHvGJs0wncVEvvAYF5Gt">4. 第二步：服务器侧准备</h2>
+<pre data-page-node-id="MTVfONwly6rZrN8fKOOBwq"><code data-page-node-id="THnTW7Gp5y8nwqEUBK9HyV"># 查公网 IP
+curl -4 ifconfig.me
+# 磁盘
+df -h /
+# 端口是否被占（旧服务 / 旧容器）
+ss -lntp | grep 9000
+</code></pre>
+<h3 data-page-node-id="nzcJs6O0e58g94yr8rYFbF">端口被占的正确处理</h3>
+<pre data-page-node-id="mIFwGzSHHNWpomylGpDeqF"><code data-page-node-id="pmTxpCdqX9x4M9idOCtZyH">docker ps -a | grep 9000                    # 找到映射该端口的容器
+docker stop &lt;容器名&gt; &amp;&amp; docker rm &lt;容器名&gt;   # ✅ 正确
+# ❌ 不要 kill docker-proxy：会被 dockerd 自动拉起，端口永远释放不掉
+</code></pre>
+
+<h2 data-page-node-id="MsjgMyDNsrx8Bbw2N97StP">5. 第三步：代码部署（Git + tarball 兜底）</h2>
+<div class="danger" data-page-node-id="zEhtYQ67jTeEYgUc3AEmw9"><b data-page-node-id="0aZcNcxNYbxjoYHkyATeEw">硬约束</b>：.env 永不入库（.gitignore 锁死，<code data-page-node-id="SD2iOuPJeG6bGJSg1tEZYE">deploy/create_env.sh</code> 同样 ignore）。</div>
+<pre data-page-node-id="QtsiAHXmiDffv2GOebQcAg"><code data-page-node-id="QEJHFyVkYYNFKEjJnp8TIi"># 本地：仓库准备（防 CRLF 导致服务器报 bad interpreter）
+git init -b main &amp;&amp; git config core.autocrlf=input
+git remote add origin &lt;仓库地址&gt; &amp;&amp; git push -u origin main
+
+# 服务器：一条命令部署（备份旧项目 → 停旧服务 → 拉代码 → 构建 → 自检）
+curl -fsSL &lt;脚本URL&gt;/setup_from_git.sh -o /tmp/s.sh &amp;&amp; sudo bash /tmp/s.sh &lt;仓库地址&gt; main
+</code></pre>
+<div class="warn" data-page-node-id="EnA722lqjYUwExIhFHs9kJ">脚本下载<b data-page-node-id="ooZ2GB3AvNzm7rFX89YDBv">务必先验真</b>（镜像站缓存会拿到残缺旧版）：<code data-page-node-id="nULu6RvZClBgiHUzfWdGD4">wc -c /tmp/s.sh</code> 与仓库字节数比对 + <code data-page-node-id="FGfgLxQUY3UNomKGvx01AI">bash -n /tmp/s.sh</code> 语法检查。</div>
+<p data-page-node-id="HuQ6r2grxQLDLUA7gWo6qq"><b data-page-node-id="8ssBnLTdBDoTVCii0vMdh1">已知坑</b>：GitHub 镜像站（ghfast / gh-proxy / ghproxy）<b data-page-node-id="Wtm3MIKIq37MppEgDwosUs">只转发 GET，不转发 git 的 upload-pack POST</b>，<code data-page-node-id="m0gohRhQrYb2rl35BKzrED">git clone</code> 必然全失败 → 脚本已内置 <b data-page-node-id="6qJqfs6IybbrA9TCxRyGpE">tarball GET 兜底</b>。日志里前几个源失败属预期，<b data-page-node-id="3shqbXxGBlJitM2xcHLQG6">不要中断</b>。已挂镜像：gh.llkk.cc、gitclone.com。</p>
+
+<h3>5.1 代码迭代：本地改动 &#8594; Git &#8594; 服务器</h3>
+<p>这是「改完代码 / 改完人格」后的标准回路。人格改动只涉及 <code>assistants/*/AGENTS.md</code>，也走同一条路。</p>
+<pre><code># ① 本地提交（在 karvis/ 目录下）
+git status --short                 # 确认没有 .env / data/ 被列进来
+git check-ignore -v .env           # 期望输出 .gitignore 规则，证明已忽略
+git add -A &amp;&amp; git commit -m "feat/fix/docs: &lt;一句话说明&gt;"
+git push origin main
+
+# ② 服务器拉取（不动 .env 与 data，脚本已内置）
+sudo bash /opt/karvis/deploy/update.sh
+
+# ③ 若改的是人格/配置而非代码，通常再重建一次即可
+cd /opt/karvis &amp;&amp; docker compose up -d --force-recreate</code></pre>
+<div class="card"><b>提交信息约定</b>（与本次仓库保持一致，便于日后回溯）
+<table>
+<thead><tr><th style="width:20%">前缀</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td><code>feat:</code></td><td>新能力（如新增一个助手）</td></tr>
+<tr><td><code>fix:</code></td><td>修 bug（如脚本 <code>set -e</code> 误退出）</td></tr>
+<tr><td><code>docs:</code></td><td>文档/人格文案（如改 <code>AGENTS.md</code>、补 SOP）</td></tr>
+</tbody></table></div>
+<p><b>分支策略</b>：单人项目直接推 <code>main</code> 即可；想先灰度则另开分支，把部署命令第二个参数换成分支名（<code>setup_from_git.sh &lt;仓库&gt; &lt;分支&gt;</code>），验证通过再合回 <code>main</code>。</p>
+<p><b>私有仓库</b>：脚本支持 <code>GITHUB_TOKEN</code>，在服务器执行前导出即可（tarball 兜底路径会用）：</p>
+<pre><code>export GITHUB_TOKEN=&lt;你的token&gt;; sudo -E bash /opt/karvis/deploy/setup_from_git.sh &lt;仓库&gt; main</code></pre>
+
+<h3>5.2 回滚</h3>
+<pre><code># 方案 A（推荐）：revert 一个提交，历史干净且可追溯
+git revert &lt;坏提交hash&gt; &amp;&amp; git push origin main
+sudo bash /opt/karvis/deploy/update.sh
+
+# 方案 B：临时回到某个历史版本（tarball 模式无 .git 时用）
+curl -fsSL https://ghfast.top/https://github.com/&lt;用户&gt;/&lt;仓库&gt;/archive/&lt;commit&gt;.tar.gz -o /tmp/old.tar.gz
+# 解包覆盖到 /opt/karvis 后 force-recreate</code></pre>
+
+<h3>5.3 Git 安全清单（每次 push 前过一遍）</h3>
+<div class="danger"><b>若误提交过密钥：立刻去平台作废重建</b>，仅删文件无效 —— 历史 commit 里仍然存在。</div>
+<ul>
+<li><code>.gitignore</code> 含 <code>.env</code>、<code>data/</code>、<code>*.db</code>（用 <code>git check-ignore -v .env</code> 验证）</li>
+<li><code>git status</code> 里没有密钥、没有聊天记录导出</li>
+<li>文档里不贴真实 Secret / AESKey（只写变量名与长度规则）</li>
+</ul>
+
+<h2 data-page-node-id="ytcMLATw4jc2xsL1Pdg1mx">6. 第四步：凭证写入（顺序关键）</h2>
+<div class="danger" data-page-node-id="HUfATsO40N34fHnZMr5vUE"><b data-page-node-id="21iA5WeJOmlDB8fUPXuygD">正确顺序</b>：企微生成 Token/AESKey → 写入服务器 .env → 重建容器 → 回企微点保存回调。<br data-page-node-id="dsxXQEZOYaeZIhkyYSHRjo">
+反过来的话，保存时企微会立刻用 Token 验签 URL，而服务端还没配置 → 404 → 保存失败。</div>
+<pre data-page-node-id="7yZweX99z3fo0lNCBC54FM"><code data-page-node-id="RGiDy4Pgve2AXSHU36dw36">sudo sed -i -e 's/^WECOM_FITNESS_AGENT_ID=.*/WECOM_FITNESS_AGENT_ID=&lt;值&gt;/' \
+  -e 's/^WECOM_FITNESS_SECRET=.*/WECOM_FITNESS_SECRET=&lt;值&gt;/' \
+  -e 's/^WECOM_FITNESS_TOKEN=.*/WECOM_FITNESS_TOKEN=&lt;值&gt;/' \
+  -e 's/^WECOM_FITNESS_AESKEY=.*/WECOM_FITNESS_AESKEY=&lt;值&gt;/' /opt/karvis/.env
+
+sudo chmod 600 /opt/karvis/.env
+grep -c '^WECOM_.*=.\+' /opt/karvis/.env      # 应为 1 + 4×应用数
+</code></pre>
+<div class="warn" data-page-node-id="W80yhcT12plqV7vAlxKjwu">改 .env 后<b data-page-node-id="8Zp3TWABhLT9aiDWI1OH4H">必须重建容器</b>：<code data-page-node-id="txo4EV3zjZQbwULfG3cX34">cd /opt/karvis &amp;&amp; docker compose up -d --force-recreate</code>（<code data-page-node-id="lkoUgy63E7KYddLKWuFDXG">restart</code> 不重读 env_file）。</div>
+<h3 data-page-node-id="O949jcUby9goVFDp92QXxC">敏感值优先用终端交互输入</h3>
+<pre data-page-node-id="UheMqEQcmsPUeXrofCV6Fe"><code data-page-node-id="VTBnf9My5o1vj0raYZB5yV">read -s -p "paste: " K; echo; echo "LEN=${#K}"
+sudo sed -i "s|^DEEPSEEK_API_KEY=.*|DEEPSEEK_API_KEY=$K|" /opt/karvis/.env
+</code></pre>
+
+<h2 data-page-node-id="liw6XLMJmEjXeXKdOvJKCv">7. 第五步：回调 URL 与可信 IP</h2>
+<table data-page-node-id="jDn5Ykb2xTn8I8tKPEQvn6">
+<thead data-page-node-id="wrQrObLLRQQfU0ST2QTY5O"><tr data-page-node-id="nczrJwIqTCT5MxmfQMhbNl"><th style="width:26%" data-page-node-id="8iavVYQiDVzb5Hf3nvktpa">应用</th><th data-page-node-id="k7H2HZBOtk8VIpCWbPqXqp">URL</th></tr></thead>
+<tbody data-page-node-id="4QFmm6I1uaLcbzyt6f1Bsm">
+<tr data-page-node-id="DDxxOdWt0TzHIO3b8jXdHh"><td data-page-node-id="950Kbqst9HW2GA4BgsTw2O">阿龙管家</td><td data-page-node-id="FusQsLfsnkMgCAu45rHNLH"><code data-page-node-id="No2qXDWDHuzVNiVHbfWRQG">http://49.235.107.213:9000/wecom/life</code></td></tr>
+<tr data-page-node-id="mnWOg4wSfQaI48Iv1BDHbX"><td data-page-node-id="QfKlvIifNbAJtGhqOi51xd">埼玉教练</td><td data-page-node-id="w7y3MAFCree8ODTu8Ao9gH"><code data-page-node-id="oXXkdEHoui9ciFDG82UesF">http://49.235.107.213:9000/wecom/fitness</code></td></tr>
+<tr data-page-node-id="dqoHklY50XMIHUF7BHeRTw"><td data-page-node-id="FbM6EfwCaqWbOr6RRb34TU">阿尼亚督导</td><td data-page-node-id="eCEUx6psMKwFvmQNrEvJoh"><code data-page-node-id="jXdamEYRrHoVBbuUQCpvYj">http://49.235.107.213:9000/wecom/mood</code></td></tr>
+</tbody>
+</table>
+<ul data-page-node-id="RNXVFsaRJfLKWECtIr3RsY">
+<li data-page-node-id="FgTuaDdK8kJ6nXKNcTlGnz">URL 末尾路径<b data-page-node-id="9GsehzVkxysO8wXc0VkaTu">不能少</b>（只填 IP = 保存失败 / 收不到消息）</li>
+<li data-page-node-id="7jFoeBO6ad4BOfFKHYrdUp"><b data-page-node-id="74qSAyzl0jzPHkZBmI8pyd">企业可信 IP（必做）</b>：每个应用都填服务器公网 IP，多个用 <code data-page-node-id="VmK4YDyOHlir0U64AspFYK">;</code> 分隔</li>
+<li data-page-node-id="qrmmLcc7UIHEWGWUWgoOwF">漏配表现：能收到消息但不回复（日志 <code data-page-node-id="FAdX5k5f60g4WbgOwjt3xF">60020 not allow to access from your ip</code>）</li>
+</ul>
+<div class="tip" data-page-node-id="gfo0tzeS2PDLh6wvGugn7g">上游参考：<a href="https://github.com/sameencai/KarvisForYou/blob/main/docs/%E5%9B%9E%E8%B0%83URL%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97.md" data-page-node-id="vivDHQtbMe2yUu9UvelyV9">回调URL配置指南</a></div>
+
+<h2 data-page-node-id="NuVbDuay0tWjqXKJlIzHhd">8. 第六步：验证清单</h2>
+<pre data-page-node-id="wQGRGEyWD0jiJJDUw6XIsE"><code data-page-node-id="ytMO3jQ0RuOAUTwpHG5Cif"># 1) 公网可达
+curl -s http://&lt;公网IP&gt;:9000/health        # 期望 ok + 各助手 "ready": true
+
+# 2) 容器内直测大模型（绕开企微，只打印状态码）
+docker exec karvis python -c "import os,httpx;k=os.environ['DEEPSEEK_API_KEY'];r=httpx.post('https://api.deepseek.com/chat/completions',headers={'Authorization':'Bearer '+k,'Content-Type':'application/json'},json={'model':'deepseek-chat','messages':[{'role':'user','content':'hi'}],'max_tokens':5},timeout=30);print('LEN',len(k),'CODE',r.status_code)"
+# 期望：LEN 35 CODE 200
+
+# 3) 看日志
+docker logs karvis --tail 50
+</code></pre>
+<ul data-page-node-id="FsOGuoaWuyUeCVPacZh95F">
+<li data-page-node-id="nSSAnGCwarFmoQzGYJ0tEp">☐ 防火墙端口已放行（外部 curl /health 通）</li>
+<li data-page-node-id="SP4NDAoJGDjI23ggVFZl2f">☐ 三个助手 <code data-page-node-id="Q9vm5sOKAa9E5Z75Bq7MY1">ready: true</code></li>
+<li data-page-node-id="s2U0nRIeImqoFjuh3tucTE">☐ 大模型 <code data-page-node-id="WlR04Z3KOUEOajAXwCYjn0">CODE 200</code></li>
+<li data-page-node-id="ILDGKHk3PA1oXfwGI7AUMf">☐ 每个应用可信 IP 已填</li>
+<li data-page-node-id="973Ym8R5V6FZIP13hTIqg9">☐ 三个应用都能收发</li>
+</ul>
+
+<h2 data-page-node-id="yxLKmXH6XJlpQveanj3H2E">9. 复用改动清单（换项目只改这些）</h2>
+<table data-page-node-id="c8X8T1T0EBtCJdCPxFNb7G">
+<thead data-page-node-id="JmKCqdpCEDnoO5qpJJzAaR"><tr data-page-node-id="ytKvLjT73hrzPm6qZ18EFI"><th style="width:30%" data-page-node-id="srpr5YJNQ8WH63bAUk1MFd">改动项</th><th data-page-node-id="uJlRPMgT1iqK6XfVw0to1R">位置</th></tr></thead>
+<tbody data-page-node-id="ClCJmnLlnOF5uXIc7MyBB7">
+<tr data-page-node-id="BrbZ2S2bhl2C7mFqskuNr7"><td data-page-node-id="Ei21EbD9sNrZZKZbXsDdpz">助手数量 / 名称</td><td data-page-node-id="jZNXMM6G73q4hd405dz3cV"><code data-page-node-id="1E6O1LPI2UvjjZ3G7tRkU1">gateway/config.py</code> 的 <code data-page-node-id="y1PKCGjYiiEBTAXUVxqFms">_AGENT_META</code> + .env 对应变量组</td></tr>
+<tr data-page-node-id="lCJ1sPJ57X3s9NVxDA8uNL"><td data-page-node-id="06IwXBmcBTTEI19bdsS692">助手人格 / 行为</td><td data-page-node-id="EJF5zUU8GJpLiGSk3FEgnm"><code data-page-node-id="jWlxjpVOqF0yaiP1eqkulF">assistants/{life,fitness,mood}/AGENTS.md</code>（改 Markdown 即可，不用改代码）</td></tr>
+<tr data-page-node-id="zIqQNBe3WwAsC0P8JJSRbA"><td data-page-node-id="47Irya0REaVdEvMPBC11jt">端口</td><td data-page-node-id="3oZA6cOI2mzYJApmMAaPX3">.env、Dockerfile、docker-compose.yml、install.sh、config.py 全量替换</td></tr>
+<tr data-page-node-id="8EWgb2ib1V1TuBPy1bjtHn"><td data-page-node-id="HEKC68Ikn8vDSCzpMTPYzu">定时推送</td><td data-page-node-id="PiKMSRW4NeFZzJANvwXspO"><code data-page-node-id="73nt44FXItdY9bUwIljnj1">gateway/scheduler.py</code> + .env 的 <code data-page-node-id="afHOzbBXbv6Q7pd6jPiPTy">ENABLE_SCHEDULER=1</code> 与 <code data-page-node-id="ofkP3XvQ0WljgkrG4Xx58r">KARVIS_OWNER_USERID</code></td></tr>
+<tr data-page-node-id="U7bGV6tjuCNUa9qW8Tq6Aq"><td data-page-node-id="jS6btdpDPqCrObchUUzI9I">仓库 / 服务器</td><td data-page-node-id="qLKSPWd1DMhsAXWgAyin84"><code data-page-node-id="Ho6peP58CRGha6rKctaXzS">deploy/setup_from_git.sh</code>、<code data-page-node-id="eP8PJnF4XDArYyMrDkKzSe">update.sh</code> 的仓库地址与安装目录</td></tr>
+</tbody>
+</table>
+
+<h2 data-page-node-id="2F0h5NnuVwn5xS2GwyxKwu">10. 排错表（本次实战踩过的坑，按命中率排序）</h2>
+<table data-page-node-id="ZxifHKcQlRtYpx77HgzUkd">
+<thead data-page-node-id="dl7F31oSsSbxJpmJ4n0aoc"><tr data-page-node-id="BDjtwqTYuJgHv6lpNcEPgD"><th style="width:5%" data-page-node-id="d8fE8cA70fNDBDenVH2SA5">#</th><th style="width:26%" data-page-node-id="URAbQlkGjdK2TRYF3ZyI2w">症状</th><th style="width:30%" data-page-node-id="584tIDFrT4E4YLfrVOJ0ki">真因</th><th data-page-node-id="8HjfwkB398zTmAemsatsvg">解法</th></tr></thead>
+<tbody data-page-node-id="ssGBK3ZXHg97vNnWLgODkr">
+<tr data-page-node-id="P7vkR2XkHRuaChBk4mrL5q"><td data-page-node-id="GeM2mWr4XpoB0XflsY8pZh">1</td><td data-page-node-id="hc4zBBAQxmzjKkdKHVfeL4">助手回「DeepSeek API Key 无效（401）」</td><td data-page-node-id="jZmsd3bBklBFoKV2tHAjau">Key 残缺：仅 sk-+20 位（标准 35 位）</td><td data-page-node-id="aH2RV2VKzRpd2J0PjSnHEb">新建 Key；先 <code data-page-node-id="GTzMNtqGtm2Z2H8TYoS0fn">echo ${#K}</code> 断言 35；终端 <code data-page-node-id="NnoQ6YyKMoCYSz7HYvi7Pe">read -s</code> 交互写入</td></tr>
+<tr data-page-node-id="dYJQjxMCw1LLXtoxE5041a"><td data-page-node-id="jnM1FQ01OEaOXatAA7svU1">2</td><td data-page-node-id="KHGUa5FEyQLJVD4IWDGvjI">改了 .env 不生效</td><td data-page-node-id="KUgiCWR7cdRBt5IKPMvbrN">docker restart 不重读 env_file</td><td data-page-node-id="4rpS4xPpoR3eMBCCaaX5jL"><code data-page-node-id="4xIFzikBf2YH4yifB7kzOW">docker compose up -d --force-recreate</code></td></tr>
+<tr data-page-node-id="1PWvzRaUmuYwQjZXUSWrTl"><td data-page-node-id="G48YKTA0xsGKvJFelnynv4">3</td><td data-page-node-id="iQzcCIeMbrQijtMxAC2GtW">能收消息不回复</td><td data-page-node-id="p2HbK0SKGmOx0z9t0LFHif">企业可信 IP 未配</td><td data-page-node-id="Zlc0WP7g6RyySdD8YA38Hr">每应用填公网 IP（日志 60020 即此因；60020 反证 Secret 有效）</td></tr>
+<tr data-page-node-id="ckqcVn7AVFKGWeNUMU9BiF"><td data-page-node-id="ZxAWl41DdPjWCBcxfOwBKp">4</td><td data-page-node-id="rdhKZA7FxHnJq12DPFqCeb">聊天里粘的 Key 总不对</td><td data-page-node-id="RQPVtFcoPWThPfGzewrTjg">长串密钥在 IM/终端往返被截断或改写</td><td data-page-node-id="Ej0FzFZPBsK83IwX993rGg">服务器终端 <code data-page-node-id="lnHpO5PpRlSTcIAlV8j69z">read -s</code> + 长度断言；或用脚本从本地文件正则取值写入</td></tr>
+<tr data-page-node-id="ytLMTZtkucybfeyYHUb7ax"><td data-page-node-id="IdGmp6rgmuGkrx2hGCwMBB">5</td><td data-page-node-id="UxFKUha96EQM92YL33PdCa">回调保存失败「URL 验证失败」</td><td data-page-node-id="aCoGl7Pwjb2OtLSVBXAsBO">服务端未配该应用 Token/AESKey 或未重建</td><td data-page-node-id="SFCzeviydzmu7J3xw4Uk9u">按第 6 节顺序：写 .env → 重建 → 再保存</td></tr>
+<tr data-page-node-id="R0t7pMRcN3t83sfTDoiBkM"><td data-page-node-id="Rk2IuLBxlKxcSJOJVBvl2P">6</td><td data-page-node-id="RYkSLtt5G6ibcFqYmzKCJV">网页终端多行粘贴卡 PS2</td><td data-page-node-id="ganqSmDG6S2G45p0ScghaM">反斜杠续行带 CR</td><td data-page-node-id="22wowWatvVU39k2QaarZnm"><b data-page-node-id="iFMd5XQmBOqDkHD6GWrM0m">一律单行命令</b></td></tr>
+<tr data-page-node-id="Y7RaLUgFVDaQGU8f2UPqkr"><td data-page-node-id="bSRWq9GUq44725z4aBswMl">7</td><td data-page-node-id="4IPliPDtCyZqbZ7eBOiwZQ">heredoc 写文件「假成功」</td><td data-page-node-id="Uj6D8O0Mocfm1Jh1I8P6lf">粘贴丢失，No such file</td><td data-page-node-id="6SXIDdQPlrRGHx1YyJvPBZ">改单行 <code data-page-node-id="BPvsDxjkum9gZ8FSLrUNNT">printf '%s\n' ... &gt; file</code> + <code data-page-node-id="xd2igkcEu05C2CcBZDmhYJ">grep -n | cat -A</code> 验真</td></tr>
+<tr data-page-node-id="MmLw5z2PvdM5CzdwS0JncH"><td data-page-node-id="opiSe3oTrBtELXhmhQ9eMT">8</td><td data-page-node-id="LTubACkUAhJda8iUi2eEaG">脚本大小与仓库不符</td><td data-page-node-id="CC3d5islzeqKKXqpXza3rj">镜像站缓存旧版</td><td data-page-node-id="M4ONDUDxa7dIOiLTECLgDX">重下 + <code data-page-node-id="8hcEly1OAh6H8ow70uHl4x">wc -c</code> 比对 + <code data-page-node-id="wzupAzBU7vEWj4LUJqIXjp">bash -n</code></td></tr>
+<tr data-page-node-id="rbuSQ8nWyckVopptZuY4xl"><td data-page-node-id="IeAmtflz8jrcZnKVpLgbZ6">9</td><td data-page-node-id="u0I2U7QAMVmNB304J6lToF">git clone 所有镜像全失败</td><td data-page-node-id="QY4HtB2A2WLctqPoMnjjfv">镜像只转发 GET，不转发 upload-pack POST</td><td data-page-node-id="UZmZtHIkmpvsRYO24pyR58">走 tarball 兜底（已内置，失败日志属预期）</td></tr>
+<tr data-page-node-id="6sEWqejKHFgjN58CQC3Sww"><td data-page-node-id="rFY1XODd7ydIGHK2sb6TIk">10</td><td data-page-node-id="L3a0jj6gDFczldscYI57pu">脚本运行到一半静默退出</td><td data-page-node-id="uNXEBbGQhQEFG24VDaQVVb"><code data-page-node-id="ObfBmkNpEMQya2eE4SCzW2">set -euo pipefail</code> 下 <code data-page-node-id="xD7TND4ZHXFyRYUOCHhP3g">[ cond ] &amp;&amp; cmd</code> 作独立语句</td><td data-page-node-id="t7Itn2d8gqvV7KXMeTcdUE">一律改 <code data-page-node-id="dCcX88EFFk977Fbzb9Gd4M">if</code></td></tr>
+<tr data-page-node-id="IAVEWv9ipwpBXTEIqT6Vos"><td data-page-node-id="pSfD1EwX8iQdfa92AZfCh8">11</td><td data-page-node-id="wAnc68dHzAhH4BlwXFcoIv">端口释放不掉</td><td data-page-node-id="NEeL5eAjQZ3zpzddH77Bse">直接 kill 了 docker-proxy</td><td data-page-node-id="zEY6LLAE94OPDOmnjgvqWB">stop + rm 容器</td></tr>
+<tr data-page-node-id="UAhMH2lNpO5NeRWYpsj0x3"><td data-page-node-id="vGRRYTk0ceshCGVMizgKCj">12</td><td data-page-node-id="BFvtmqiZyusfINAZdb3jyj">服务器 .env 被清空</td><td data-page-node-id="DxGN1KnCmqow9p44Dt0Oj1">rsync --delete 未排除</td><td data-page-node-id="B0rY20P76HbsoyDwQ8kB18">加 <code data-page-node-id="01dAbx99RMTMHAC4Lyqk1A">--exclude '.env'</code></td></tr>
+<tr data-page-node-id="PVjN6iP9vkToj41gkcn5vQ"><td data-page-node-id="WWBKdaafP1Ctuz0uEtZLhu">13</td><td data-page-node-id="PB2lfw2rTnzInykK0c4aOU">脚本 bad interpreter</td><td data-page-node-id="slkB600cYBnC754MMLm9SC">CRLF 换行</td><td data-page-node-id="7nelG4hR4sDhGaYayGAAr0">本地 <code data-page-node-id="PGryp4df0wrAVxEmiZjmdB">core.autocrlf=input</code>，脚本保 LF</td></tr>
+<tr data-page-node-id="MuH70HHHCPWavKm26YJpHK"><td data-page-node-id="xKFhhdQWXCEwN8nBVo6zkr">14</td><td data-page-node-id="RcV8ocaQydnDMuFGMNBbsN">应用在自己企微里找不到</td><td data-page-node-id="FrGUOAMqvCReLrW5ikH1Ce">可见范围没加自己 / 微信未关注企业</td><td data-page-node-id="bezn94KzncTVaH2gS576tw">加可见范围 + 微信插件扫码</td></tr>
+</tbody>
+</table>
+
+<h2 data-page-node-id="ovjLTRLBxyFJazB331dyMX">11. 日常运维</h2>
+<pre data-page-node-id="xzFpZIBuDdQ6jcpaj6MAEs"><code data-page-node-id="UNYsDQkJGoSOf910EA7N79"># 更新代码（不动 .env 与 data）
+sudo bash /opt/karvis/deploy/update.sh
+# 重启 / 重建
+cd /opt/karvis &amp;&amp; docker compose up -d --force-recreate
+# 日志
+docker logs karvis --tail 100 -f
+# 数据（SQLite + 每日 md）
+ls -l /opt/karvis/data
+</code></pre>
+<div class="danger" data-page-node-id="kNt8AglA9CgTBj4yVBbZPK"><b data-page-node-id="jyA9e4QwtX8HUZFkmaPtpC">安全红线</b>：.env 不入库、不进聊天截图；权限 600；废弃 API Key 及时在平台删除。</div>
+
+<h2 data-page-node-id="Sklkw9w4IEaolitZpVGUmS">附：本次部署时间线（2026-09-08）</h2>
+<div class="card tl" data-page-node-id="upFBA5PwYfBcSxCk9E4bpU">
+  <div class="item" data-page-node-id="VKDFTLAeGrBp25yAYuohmU"><div class="t" data-page-node-id="fcGRcyyWXdduwSz2uZnYTL">19:30</div>需求对齐：微信端 + 多助手 + 云服务器；锁定企微自建应用 ×3</div>
+  <div class="item" data-page-node-id="BRk8ia502l6poIAvgIAKMX"><div class="t" data-page-node-id="Qzaoe67qBuOGMCH9YnV6NZ">20:45</div>P0 代码交付，本地加解密回环 / mock 回调 / 自检全过</div>
+  <div class="item" data-page-node-id="tsDotxD7aKZNdXgBAzlals"><div class="t" data-page-node-id="Dbbt5bgTZhrzXHgC08daLd">21:10</div>改走 Git 部署；.env 永不入库</div>
+  <div class="item" data-page-node-id="MsThXiaZhm2GN8A8hqQpfN"><div class="t" data-page-node-id="lE3oUejBvazUkyLC01B7yv">21:40</div>网页终端实战：单行命令、单行 printf 写 .env、清理旧容器释放 9000</div>
+  <div class="item" data-page-node-id="Ex4owKhKM6w0e92BmsW5Yt"><div class="t" data-page-node-id="g8QROY8KGbAJT9nSwrBTIx">21:55</div>git clone 四源全失败 → 加 tarball 兜底</div>
+  <div class="item" data-page-node-id="xEC8P19v1L6tmHEqW4xQsq"><div class="t" data-page-node-id="px5zwBrTZD0hCET8zbPawP">22:13</div>部署成功，/health 公网 200</div>
+  <div class="item" data-page-node-id="hqFVumNqBBRTv99TO27pqK"><div class="t" data-page-node-id="SOfeYS1eroYSEYt7Syc16J">22:25</div>定位 401 真因：Key 只有 20 位（残缺）</div>
+  <div class="item" data-page-node-id="YAYI3aBnCTMibH48AAHqwD"><div class="t" data-page-node-id="1BTJJOwkRuYxgVCDD2yZb0">22:35</div>换新 Key（35 位）→ 阿龙管家跑通</div>
+  <div class="item" data-page-node-id="DN9pWCR8fVCQrN1NPvHn0b"><div class="t" data-page-node-id="1LcJg9pnq63rMYBQOaEoDR">22:58</div>fitness / mood 凭证补齐，三助手全绿</div>
+</div>
+
+<footer data-page-node-id="9FKd9izBaHqCWFO8WFu3fD">
+上游文档：<a href="https://github.com/sameencai/KarvisForYou/blob/main/docs/%E4%BC%81%E5%BE%AE%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%BA%94%E7%94%A8%E5%88%9B%E5%BB%BA.md" data-page-node-id="tvhG9mXA0gj5q6pYhvrX5I">企微注册与应用创建</a> ｜
+<a href="https://github.com/sameencai/KarvisForYou/blob/main/docs/%E5%9B%9E%E8%B0%83URL%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97.md" data-page-node-id="agtvjGiMmA4Grp8hoqtYWc">回调URL配置指南</a> ｜
+<a href="https://github.com/sameencai/KarvisForYou/blob/main/docs/%E4%BC%81%E5%BE%AE%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97.md" data-page-node-id="FG3fcRplZCHipSVojsLCf0">企微应用配置指南</a>
+</footer>
+
+</div>
+</body>
+</html>
