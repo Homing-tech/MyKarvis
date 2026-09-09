@@ -56,6 +56,8 @@ class Settings:
     owner_user_id: str
     enable_scheduler: bool
     log_level: str
+    version: str
+    commit: str
     agents: dict[str, AgentConf] = field(default_factory=dict)
 
 
@@ -64,6 +66,16 @@ _AGENT_META = {
     "fitness": "埼玉教练",
     "mood": "阿尼亚督导",
 }
+
+
+def read_version() -> str:
+    """读取仓库根目录 VERSION 文件；缺失时降级为 dev。"""
+    vf = BASE_DIR / "VERSION"
+    if vf.exists():
+        v = vf.read_text(encoding="utf-8").strip()
+        if v:
+            return v
+    return "dev"
 
 
 def load_settings() -> Settings:
@@ -94,6 +106,8 @@ def load_settings() -> Settings:
         owner_user_id=env("KARVIS_OWNER_USERID"),
         enable_scheduler=env("ENABLE_SCHEDULER", "0") == "1",
         log_level=env("LOG_LEVEL", "INFO"),
+        version=read_version(),
+        commit=env("KARVIS_COMMIT", ""),
         agents=agents,
     )
 

@@ -182,7 +182,15 @@ async def root():
 
 @app.get("/health")
 async def health():
-    return PlainTextResponse("ok")
+    """健康检查：除 status 外，返回线上实际运行的版本号与 commit，便于确认发布是否生效。"""
+    return JSONResponse(
+        {
+            "status": "ok",
+            "version": settings.version,
+            "commit": settings.commit,
+            "agents": {key: conf.ready for key, conf in settings.agents.items()},
+        }
+    )
 
 
 if __name__ == "__main__":

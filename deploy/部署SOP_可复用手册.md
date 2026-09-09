@@ -293,7 +293,33 @@ docker logs karvis --tail 100 -f
 ls -l /opt/karvis/data
 ```
 
-**安全红线**：`.env` 不入库、不进聊天截图；权限 600；废弃的 API Key 及时在平台删除。
+### 11.1 版本管理与回滚（长期迭代必配）
+
+一次发布 = **Git tag + CHANGELOG 记录 + 服务器 VERSION + 数据快照** 四件套。
+
+```bash
+# 本地发布（版本号 + CHANGELOG + tag + push，一条命令）
+bash deploy/release.sh patch "说明这次改了什么"
+
+# 服务器：拉代码 + 记录版本（发布脚本会打印这两行）
+cd /opt/karvis && sudo bash deploy/update.sh
+cd /opt/karvis && sudo bash deploy/record_release.sh v0.1.1
+
+# 查线上实际版本（version/commit 是发布是否生效的依据）
+curl -s http://127.0.0.1:9000/health
+
+# 回滚到某个历史版本（数据不动，回滚前自动快照）
+cd /opt/karvis && sudo bash deploy/rollback.sh v0.1.0
+cd /opt/karvis && sudo bash deploy/rollback.sh --list     # 看历史发布记录
+
+# 数据备份（本地快照 7 天；配了 COS 凭证则同时上云）
+cd /opt/karvis && sudo bash deploy/backup.sh
+cd /opt/karvis && sudo bash deploy/backup.sh --install-cron   # 每日 03:00
+```
+
+完整规范见 `docs/项目管理规范.md`；需求看板见 `BACKLOG.md`。
+
+**安全红线**：`.env` 不入库、不进聊天截图；权限 600；废弃的 API Key 及时在平台删除；备份包**不含** `.env`（密钥不出服务器）。
 
 ---
 

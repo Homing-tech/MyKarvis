@@ -26,13 +26,20 @@
 
 | 阶段 | 内容 | 状态 |
 |---|---|---|
-| P0 | 网关 + 企微回调 + DeepSeek，能收能回 | **代码就绪，待部署** |
-| P1 | 三个助手的记录能力（存 / 查 / 回填） | 代码已包含 |
-| P2 | 分析反馈：次天闭环、CBT 五步、自动分类 | 人格文件已定义 |
-| P3 | 定时推送（每日待办 / 周整理 / 情绪周复盘） | 代码已包含，开关关闭 |
-| P4 | 备份 COS、监控、可选 HTTPS | 未开始 |
+| P0 | 网关 + 企微回调 + DeepSeek，能收能回 | ✅ 已上线 |
+| P1 | 三个助手的记录能力（存 / 查 / 回填） | ✅ 已上线 |
+| P2 | 分析反馈：次天闭环、CBT 五步、自动分类 | ✅ 人格已定义，持续调优 |
+| P3 | 定时推送（每日待办 / 周整理 / 情绪周复盘） | 🟡 代码已包含，开关未开 |
+| P4 | 备份 COS、监控 | 🟡 脚本已就绪（`deploy/backup.sh`），待配 COS 凭证 |
 
-**开工顺序：先用「阿龙管家」跑通全链路，验证无误后把另外两个应用的 Secret/Token/AESKey 填进 `.env` 重启即可**（代码已支持三个）。
+**当前线上版本 `v0.1.0`（2026-09-09），三个助手全部跑通。**
+
+| 想看什么 | 去哪 |
+|---|---|
+| 这个版本改了什么 | `CHANGELOG.md` |
+| 接下来打算做什么 | `BACKLOG.md` |
+| 怎么发布 / 回滚 / 备份 | `docs/项目管理规范.md` |
+| 从零再部署一套 | `deploy/部署SOP_可复用手册.md` |
 
 ---
 
@@ -42,11 +49,11 @@
 |---|---|
 | 企业微信 CorpID | ✅ `wwdab8ed1464222a76` |
 | 阿龙管家 AgentId/Secret/Token/AESKey | ✅ 已写入 `.env` |
-| 埼玉教练 AgentId/Secret/Token/AESKey | ⬜ 待补 |
-| 阿尼亚督导 AgentId/Secret/Token/AESKey | ⬜ 待补 |
-| DeepSeek API Key | ⬜ 待补（[platform.deepseek.com](https://platform.deepseek.com)） |
-| 服务器公网 IP / 端口 | ⬜ 部署时定（默认 `9000`） |
-| 你的企微 UserID（定时推送用） | ⬜ 可选 |
+| 埼玉教练 AgentId/Secret/Token/AESKey | ✅ 已写入 `.env` |
+| 阿尼亚督导 AgentId/Secret/Token/AESKey | ✅ 已写入 `.env` |
+| DeepSeek API Key | ✅ 已写入 `.env`（[platform.deepseek.com](https://platform.deepseek.com)） |
+| 服务器公网 IP / 端口 | ✅ `49.235.107.213:9000` |
+| 你的企微 UserID（定时推送用） | ⬜ 待补（开 `ENABLE_SCHEDULER=1` 时用） |
 
 ---
 

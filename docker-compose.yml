@@ -4,6 +4,8 @@ services:
     container_name: karvis
     restart: unless-stopped
     env_file: .env
+    environment:
+      - KARVIS_COMMIT=${KARVIS_COMMIT:-}
     ports:
       - "9000:9000"
     volumes:

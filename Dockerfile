@@ -17,6 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
 COPY gateway/ ./gateway/
 COPY assistants/ ./assistants/
 COPY tools/ ./tools/
+COPY VERSION ./VERSION
 
 EXPOSE 9000
 
