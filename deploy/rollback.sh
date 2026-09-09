@@ -76,7 +76,7 @@ printf '%s\n' "$NUM" > "$APP_DIR/VERSION"
 echo "$(date '+%F %T')  ROLLBACK to $VER" >> "$APP_DIR/deploy/releases.log"
 
 # ④ 重建并验证
-cd "$APP_DIR" && docker compose up -d --force-recreate
+cd "$APP_DIR" && docker compose up -d --build
 sleep 6
 echo "—— 回滚后状态 ——"
 if curl -fsS "http://127.0.0.1:9000/health"; then

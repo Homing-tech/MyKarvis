@@ -22,7 +22,7 @@ COMMIT="$(git -C "$APP_DIR" rev-parse --short HEAD 2>/dev/null)"
 if [ -z "$COMMIT" ]; then COMMIT="unknown"; fi
 export KARVIS_COMMIT="$COMMIT"
 
-docker compose up -d --force-recreate
+docker compose up -d --build
 if [ $? -ne 0 ]; then echo "重建容器失败，看日志：docker logs karvis --tail 50"; exit 1; fi
 
 mkdir -p "$APP_DIR/deploy"
