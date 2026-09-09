@@ -36,6 +36,21 @@ CREATE TABLE IF NOT EXISTS workout_feedback (
   created_at TEXT
 );
 
+CREATE TABLE IF NOT EXISTS pr_record (
+  id INTEGER PRIMARY KEY,
+  exercise_key TEXT NOT NULL,
+  exercise_name TEXT,
+  weight_kg REAL NOT NULL,
+  reps INTEGER NOT NULL,
+  sets INTEGER,
+  est_1rm REAL,
+  rir REAL,
+  log_date TEXT NOT NULL,
+  source_log_id INTEGER,
+  created_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_pr_key_date ON pr_record(exercise_key, log_date);
+
 CREATE TABLE IF NOT EXISTS mood_log (
   id INTEGER PRIMARY KEY,
   ts TEXT NOT NULL,

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="ABscG5MoiiWOmjHuRtBfAJ">
+<head data-page-node-id="eyRTMjggC0KmLtjrzMQU7B">
+<meta charset="UTF-8" data-page-node-id="sSa8nPHafTCvH5spU2aQ0i">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="xwFjhWuFqBxCqaDcUvvZNL">
+<title>埼玉教练 v0.2.0 方案 · 从记事本到教练</title>
+<style>
+:root{
+  --bg:#f7f8fa; --card:#ffffff; --ink:#1a1d24; --ink2:#4a5160; --ink3:#7b8494;
+  --line:#e4e7ed; --accent:#2f6fed; --accent-soft:#eaf1ff;
+  --green:#1a8a5a; --green-soft:#e8f6ef; --amber:#b7791f; --amber-soft:#fdf5e3;
+  --red:#c0392b; --red-soft:#fdeceb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.7;font-size:15px}
+.wrap{max-width:960px;margin:0 auto;padding:40px 24px 72px}
+h1{font-size:27px;margin:0 0 6px;letter-spacing:-.3px}
+h2{font-size:19px;margin:38px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--line)}
+h3{font-size:16px;margin:24px 0 10px}
+p{margin:10px 0}
+.sub{color:var(--ink3);font-size:13.5px;margin-bottom:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+.lead{background:var(--accent-soft);border:1px solid #cfe0ff}
+.lead strong{color:var(--accent)}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:var(--card)}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:#f2f4f8;font-weight:600;color:var(--ink2)}
+td code,li code,p code{background:#f0f2f6;padding:1px 5px;border-radius:4px;font-size:13px;
+  font-family:"SF Mono",Consolas,Monaco,monospace}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:12px;font-weight:600;line-height:1.7}
+.t-do{background:var(--green-soft);color:var(--green)}
+.t-no{background:var(--red-soft);color:var(--red)}
+.t-mid{background:var(--amber-soft);color:var(--amber)}
+.chat{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;font-size:14px}
+.chat .u{color:var(--ink3);font-size:12.5px;margin-bottom:3px}
+.chat .a{color:var(--ink)}
+.chat .a b{color:var(--accent)}
+.formula{background:#1a1d24;color:#e8ecf4;border-radius:8px;padding:12px 16px;margin:12px 0;
+  font-family:"SF Mono",Consolas,Monaco,monospace;font-size:13.5px;overflow-x:auto}
+ul,ol{padding-left:22px;margin:10px 0}
+li{margin:5px 0}
+.warn{background:var(--amber-soft);border:1px solid #f0e0b8;border-radius:8px;padding:12px 16px;margin:12px 0;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+.kv{font-size:14px}
+.kv b{display:inline-block;min-width:88px;color:var(--ink2)}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink3);font-size:12.5px}
+</style>
+</head>
+<body data-page-node-id="iCrmVkWGoqy1OaJQ8oWaNA">
+<div class="wrap" data-page-node-id="JQQtpxEMgUcPjpy1oMYWbg">
+
+<h1 data-page-node-id="UpO4QKwCjxjtZEx9G0qFg1">埼玉教练 v0.2.0 方案 · 从记事本到教练</h1>
+<div class="sub" data-page-node-id="MUmJJ6kUB0kG5JGb1N2mfw">状态：<strong data-page-node-id="tmGSTXjdWQEa1pVjhTq9tP">待确认</strong>，确认后才动手写代码　|　参考：IronClaude（抄架构）· GymCoach（抄算法）</div>
+
+<div class="card lead" data-page-node-id="zF7efvaw4RfJZr7wG91dKK">
+<strong data-page-node-id="tlxHtBqy2BIMN4pEv9wsM9">一句话结论：只做三件 P0——训练档案、PR/1RM 追踪、渐进超负荷建议。</strong><br data-page-node-id="Gh5zippfBlD5V2hkWSIjfL">
+三件是连带关系：没有档案，任何个性化建议都是通用健身知识的包装；没有 PR，训练没有即时正反馈；没有渐进超负荷，教练就只是个记录员。三件做完，埼玉才从<strong data-page-node-id="nId7VDlddcferBSZbkKYnx">记事本</strong>变成<strong data-page-node-id="dBy6bTFEmWATsrffmJWLPB">教练</strong>。
+</div>
+
+<h2 data-page-node-id="locj3kkz1uZGZqxfwUqa7h">一、现状差距</h2>
+<table data-page-node-id="i8i1DhwdK0lbB2CMgzqamS">
+<tr data-page-node-id="CkT82F3EkA4wAYVDvVSYYC"><th style="width:30%" data-page-node-id="VtlcKa8W2rBzse9D3gwNnr">能力</th><th style="width:34%" data-page-node-id="ZNS6yQD3GXg8DSNIkn3q43">埼玉现状</th><th style="width:22%" data-page-node-id="4vbj28XxQVqvMD1xWSPxvD">参照</th><th style="width:14%" data-page-node-id="mEgbNXrubfXttvAqRqBsEb">本次</th></tr>
+<tr data-page-node-id="PBMbVJE1v1fH8hZsx8dyCh"><td data-page-node-id="1GJVpgMyG4jsesAF5KRV4D">训练档案（目标/器械/伤病/频率）</td><td data-page-node-id="JOy23nhn9iVHizcXL7gvIy"><strong data-page-node-id="d2QhP0APSpv9bFCvcFw207">无</strong>。共享画像明确「不放健身内容」，教练不知道你的目标、器械、伤病</td><td data-page-node-id="7QEfmNlJif5Rkvlv26hjAB">IronClaude onboarding</td><td data-page-node-id="YFgmMKUEJHuyEd8IhkNOSX"><span class="tag t-do" data-page-node-id="upTICTgaRAgiYpycAN0Arq">做</span></td></tr>
+<tr data-page-node-id="K8EKnAcmBwMfN6V8dGJK1k"><td data-page-node-id="ZAvaOgXfvONc6tVAvKyZMZ">PR / 1RM 追踪</td><td data-page-node-id="4nOqt5vxrNZymXGaxUZAYC">无</td><td data-page-node-id="u1vbTeIIAQNb2w4WXf5N0X">IronClaude /prs、GymCoach records</td><td data-page-node-id="fvHKMVNAlV1sOkNciATFx2"><span class="tag t-do" data-page-node-id="9GBBHGfzPczMCCXUhdxgro">做</span></td></tr>
+<tr data-page-node-id="nALYjRkOZ1S34MZOgAg7VH"><td data-page-node-id="tD7ngV0wV7zNL1P5GvDyhr">渐进超负荷建议（下次上多重）</td><td data-page-node-id="k4yk5dhVrlBoDc8td1HTZA">无，只给一条笼统建议</td><td data-page-node-id="iu9HmpSqYI0XuRij1dIUgw">GymCoach double progression</td><td data-page-node-id="xSnkIxMfKY7BC6qSzxiDbf"><span class="tag t-do" data-page-node-id="E3YV8kX4eKpKFsiFVMXfav">做</span></td></tr>
+<tr data-page-node-id="fqG8QzyB6CV6g5NwZhqYN0"><td data-page-node-id="MP7EyhCNw9tDCNGux9KIfR">动作数值化（重量/组数/次数为数字）</td><td data-page-node-id="dzTCbAQ0bLO6QYPNGy5Xe8">exercises 里全是<strong data-page-node-id="g2FzAQyGwyqZu29vLrgqtE">字符串</strong>，算不了</td><td data-page-node-id="QqOuUFc9hFzU2q3Ckl5RoD">GymCoach</td><td data-page-node-id="L2wZl8h54MUJzYO9uWb92H"><span class="tag t-do" data-page-node-id="04X77SvqJBUeatHAzoB4jv">做</span>（前提）</td></tr>
+<tr data-page-node-id="E3IZHLHA2IVGftHsF2LClv"><td data-page-node-id="nz5OIWjQsATwpcx8upaD89">周计划 + 周日互动生成</td><td data-page-node-id="mVLewWq20e5WI5tcLqBNkt">无</td><td data-page-node-id="AjF69fd7RAni0rwspPRtiK">IronClaude weekly-planning</td><td data-page-node-id="F3exHncNEQJH5rhDhy8opU"><span class="tag t-no" data-page-node-id="Eikm82ytXOYZnxHknVAxkr">不做 P1</span></td></tr>
+<tr data-page-node-id="7mSjkkfpx4FrWzI2dHNcRR"><td data-page-node-id="CHrIrOkelkynH7A6jIBLR7">周复盘（容量/停滞/deload）</td><td data-page-node-id="zQfhDdj5PImghvdOh00Sk1">只有「3 天没练」提醒</td><td data-page-node-id="KbBXL5kNVsfpYGosotlJEO">IronClaude retrospective</td><td data-page-node-id="QMjxMtVVZt1lCqdKFILdfd"><span class="tag t-no" data-page-node-id="GNcehPlvb1gWNapj9doNrx">不做 P1</span></td></tr>
+<tr data-page-node-id="SQfzwfUaUQNN5tltqPX8rd"><td data-page-node-id="B45qXvs59voxuoRM2xDzs3">训练前 readiness</td><td data-page-node-id="8TB6iFeww0SPkEc8iecRi1">无</td><td data-page-node-id="HQzKuY44jJOCwKhKH2ATXW">GymCoach pre-session check-in</td><td data-page-node-id="9bZWqGcJ1MPu90oj6vFvnX"><span class="tag t-no" data-page-node-id="iHWHMxZN4yEu0Pj0QujTjD">不做 P2</span></td></tr>
+<tr data-page-node-id="dCcMFnkE8UJaO28dHAct7m"><td data-page-node-id="7deEl1ZEe8ophjC5iQr3II">简写语法 <code data-page-node-id="F6bP8AZmC7xmJQG2Kf7DsK">卧推 60x5x3</code></td><td data-page-node-id="6fnja5pFVb9BfbJXcRofF0">全靠 LLM 解析，慢且偶有偏差</td><td data-page-node-id="OCFCJUe9FZv4GEQ5rBTkAa">GymCoach 确定性解析</td><td data-page-node-id="9I1NTcOoHjitJwM1HhSVRL"><span class="tag t-mid" data-page-node-id="kQmxOfsvDzGexw5wSDb7bJ">可选</span></td></tr>
+</table>
+
+<h2 data-page-node-id="rqbn1fS6xGWnkW6rvbsiE5">二、三件 P0 的具体设计</h2>
+
+<h3 data-page-node-id="Sk7tlPLstPKH3BNw5KnPsU">P0-1 · 训练档案（onboarding）</h3>
+<div class="card" data-page-node-id="zluKMsMq8uLazvoXUdds3v">
+<div class="kv" data-page-node-id="q5GcDp0WJnWggnbYElozUb"><b data-page-node-id="mwEpR5IiSXamtH0gPc9bbV">字段</b>目标（主/次/训练年限）· 条件（地点/器械/每周频率）· 限制（伤病史/禁忌动作）· 基线（体重/主要动作水平）</div>
+<div class="kv" style="margin-top:8px" data-page-node-id="XXSen3caZVHFjPbvo1lTOi"><b data-page-node-id="ojWhxAZV6MA0UrFwjd91v9">放哪</b><code data-page-node-id="2S8b1V6bubCoY7zL1fzEua">data/fitness/profile.md</code>　<strong data-page-node-id="qAMGYuIU0foVPTFmnfRXMW">不放 <code data-page-node-id="WFBxfLfj35NBxrAcC6CSSR">assistants/</code></strong></div>
+<p style="font-size:13.5px;color:var(--ink2);margin-top:6px" data-page-node-id="z2AQ40gpGQWBV1Bt7pHrOZ">
+理由：<code data-page-node-id="P1Y0achVLHoG1KYuAAsARS">assistants/</code> 是代码层，<code data-page-node-id="h2gT7pCGbF1Lo7rhKSPYF7">update.sh</code> 里有 <code data-page-node-id="3x1gxLzCFm08X9zVillKIJ">git reset --hard</code>，放那会被冲掉；<code data-page-node-id="WC2gU2HqjrcHom8F4xfPrK">data/</code> 是 Docker volume + 备份范围，且含伤病史属私密数据，与「健身数据属私密层」约定一致。</p>
+<div class="kv" style="margin-top:10px" data-page-node-id="j0n0GJ8lgBz4dXtWfpdFHp"><b data-page-node-id="gIKbaEwZuWvEyBQ6rvCLg5">怎么填</b><strong data-page-node-id="izQTWrYmvQ4Ys7Yr3EuXQi">顺带一问，不连环追问</strong>——在每次回复末尾追加一句提问（一次一组），你口语回答 → 抽取 → 写回档案</div>
+<p style="font-size:13.5px;color:var(--ink2);margin-top:6px" data-page-node-id="7Cm9sNfABk8uaGeCnTJiXy">
+不用 IronClaude 的五阶段连环追问：你的沟通风格是「口语、碎片、一句话交代完」，连环追问会被无视。<br data-page-node-id="WIPhZ0XgCqKcEZIkum5YyO">
+边界：字段为空时教练照常工作，只是建议偏通用；<strong data-page-node-id="I0FDooGnLcpG7Xfj8Kzw0J">绝不编造档案内容</strong>。</p>
+</div>
+
+<h3 data-page-node-id="aXr3OYa1zkHTFPkyE6oa6x">P0-2 · PR / 1RM 追踪</h3>
+<div class="formula" data-page-node-id="hiPMZhA9qH1qXCTNb6VskU">估算 1RM = 重量 × (1 + 次数 / 30)　　例：60kg × 5 次 → 70.0kg</div>
+<ul data-page-node-id="FsIuwAOjSpYBXS1K1B58WO">
+<li data-page-node-id="mUIWIC8EfZ0dqmlxHUonl7"><strong data-page-node-id="wXROJg4wsHysBcyCX8Sw5C">仅当次数 ≤ 12 才估算</strong>，&gt;12 记为耐力记录、不出 1RM（Epley 在高次数区误差大）</li>
+<li data-page-node-id="mFtwLKlfaEPLBMkR0Ys0KQ">破 PR 判定：同动作估算 1RM 超过历史最高 <strong data-page-node-id="ZyRLJYxFDnayOV8yE4Gq4m">≥ 0.5kg</strong>（留抖动余量）</li>
+<li data-page-node-id="kBfL6yIac9uTgnhfBEIZ7F">动作归一：LLM 输出简短标准名 <code data-page-node-id="1eLKDSew2L56EG4NdhBQwp">exercise_key</code>（卧推/深蹲/硬拉/引体/划船/肩推…），匹配时<strong data-page-node-id="geAmyNfRxVwgPdzHBauZN6">完全相等优先</strong>，无完全相等再取最长包含匹配（避免「卧推」误配「哑铃卧推」）</li>
+<li data-page-node-id="El3D76OGnQ4V89FPsacUYu">新增表 <code data-page-node-id="A8WdlUFgjrlfWGLCxzY8zE">pr_record</code>：<code data-page-node-id="Ez9NaYvPwYcDaGCvKnqCGW">id, exercise_key, weight_kg, reps, est_1rm, rir, log_date, source_log_id, created_at</code></li>
+</ul>
+<div class="chat" data-page-node-id="DcTwPsHOelGp4yhpfhyr6H"><div class="u" data-page-node-id="BSflVN5Rk0073ntqVGRucd">破 PR 时教练主动播报</div><div class="a" data-page-node-id="Bb8e9nC675PI8JdlUtpigN">卧推 60kg×5 → 估 1RM <b data-page-node-id="ylCah6yndb4GWeJhxLHtin">70.0kg</b>，破 PR（上次 67.1kg，+2.9kg）</div></div>
+
+<h3 data-page-node-id="QFaweu7CmXVUvuGZe2FNJ9">P0-3 · 渐进超负荷建议</h3>
+<p data-page-node-id="I69iRAQcLeWAfia5QSBn2d"><strong data-page-node-id="0ohcNlXKM6ByTvfWkmVFMK">分工原则</strong>：代码只负责<strong data-page-node-id="F9hLsCWxFq0VDZ8hm2GFID">取数与计算</strong>，判断规则写进 <code data-page-node-id="vyvXbd0GE6OYcYbxVFfTin">AGENTS.md</code> 交给 LLM——延续本项目「改行为只改 Markdown」的设计。</p>
+<div class="formula" data-page-node-id="5BD3DPfBLxQFgUxVrFRkUD">【卧推 · 历史】
+09-02  60.0kg×5×5  RIR2  → 估 1RM 70.0
+08-30  57.5kg×5×5  RIR3  → 估 1RM 67.1
+08-27  57.5kg×5×5  RIR3  → 估 1RM 67.1
+趋势：重量↑，RIR 由 3 降到 2</div>
+<table data-page-node-id="PVsJeB2SAha7CQnyKMrXlw">
+<tr data-page-node-id="jum8dVbDgxxvuGcVGVMcCP"><th style="width:28%" data-page-node-id="rB4EC9LNdVrtni9PS2Ecp1">上次 RIR</th><th data-page-node-id="y0QoR9G7I2sYjes9PQKGi6">下次怎么调</th></tr>
+<tr data-page-node-id="pKs8jIDhY2dv6GzafWNyJp"><td data-page-node-id="1X7iU3NLZsrTyL2wrmzMNZ">≤ 2</td><td data-page-node-id="LsWDxEDBqByPAqNU3DNqvm">上肢 +2.5kg / 下肢 +5kg</td></tr>
+<tr data-page-node-id="cyAFKtRITgh7htHg087hPE"><td data-page-node-id="a9kw1HFTsqA5FKmrD9tn0p">3–4</td><td data-page-node-id="hvMRXxKBhVwQhGvdQoyuT9">重量不变，先加 1–2 次</td></tr>
+<tr data-page-node-id="czd9K4gwvt9tz6dAVx8RaQ"><td data-page-node-id="AeqnCg82wiPeIyqO1PO1J4">≥ 5 或未填</td><td data-page-node-id="P7TJTzW9fBCt6ZmpOToSdU">重量不变，先做满目标次数</td></tr>
+<tr data-page-node-id="gMFlmj9CsFiTzb3nVuGspZ"><td data-page-node-id="rIedg0IvktRxTlLmBkRZ2G">同重量同次数连续 2 次无进展</td><td data-page-node-id="FdASYAsHnGsub8ITeZE0r4">建议 deload（×0.9，一周）或换动作</td></tr>
+<tr data-page-node-id="ug0lAmV22mYCxunMHkbuRh"><td data-page-node-id="2PDaxxaMJZkZDxzdOLMQ2C"><strong data-page-node-id="7iv8AGgfhbIVyzN1jz4UGo">有疼痛信号</strong></td><td data-page-node-id="0beqSqVyRMp9tHH6hfqLRH"><strong data-page-node-id="AEVoKma0il1mMCJvIw8Ck3">不进渐进</strong>，先减载；关节/尖锐/持续则建议就医</td></tr>
+</table>
+<p style="font-size:13.5px;color:var(--ink2)" data-page-node-id="m4SjgrFvk3AYtz2Og4AlK1">RIR 说明：记录时说「还剩 1 次余力」「还能做 2 个」即可带上；<strong data-page-node-id="wvVKgvfn0pwuG0lxFVoIf9">不填也能用</strong>，代码走「未填」分支。</p>
+
+<h2 data-page-node-id="rOgKqyEEz3OHgSRVC6rJW6">三、修改清单</h2>
+<table data-page-node-id="YDYhhzI5TyICp08u3Vczn0">
+<tr data-page-node-id="RgUGsnF1MTKP0dchn2mI8I"><th style="width:5%" data-page-node-id="hFKtWjTx64z6d4mHr40Wze">#</th><th style="width:26%" data-page-node-id="S580ISd9IzActTL4YyD64F">文件</th><th style="width:8%" data-page-node-id="n6rIlIxEGWEKPrZNkv6vn1">动作</th><th data-page-node-id="i2gAdSnkORMCsBbbEQLBjz">内容</th><th style="width:10%" data-page-node-id="DaBE8MrjKWPBrr5OkAmEkR">量级</th></tr>
+<tr data-page-node-id="lBGsUlD6DU1qZFpp40KwoI"><td data-page-node-id="ARCBUJV9EA14QGzpn1PVeI">1</td><td data-page-node-id="mHe8dEIMl7ByZFckBF2zYw"><code data-page-node-id="Qy9brIpVr6GH0ECiJdO5ZZ">gateway/db.py</code></td><td data-page-node-id="GytTGJf2AhIg3B68RwqjKM">改</td><td data-page-node-id="u0W5eeSk4YKDGCG7rnvfrZ">SCHEMA 追加 <code data-page-node-id="2e75LEnWDMWcEoZXigC2lD">pr_record</code> 表（IF NOT EXISTS，老库自动建，不改老表）</td><td data-page-node-id="fmPztdNQJyp3STVzwsROPG">+12 行</td></tr>
+<tr data-page-node-id="CQDOTHV36BWfQUmB7qEIGr"><td data-page-node-id="dIANwaRyK3tOQLxzqHcZdR">2</td><td data-page-node-id="5wiSYquGIATtPo4gSTIlJj"><code data-page-node-id="5g9KqcfuW5Kby29Oe8qDJy">gateway/agents/fitness.py</code></td><td data-page-node-id="J0HQkky0FsDrCg4USah2Cp">改</td><td data-page-node-id="FCiMbefeO1IqFG2cZNq3HG">PLAN_PROMPT 增加 <code data-page-node-id="LyhoLrmlk1C0GSyAtJOAgh">exercise_key</code> / <code data-page-node-id="vTmrDweYsuzyYGgHe0tXAu">weight_kg</code>(数字) / <code data-page-node-id="YRPXdo9trYpqxFGLFwSFgl">reps</code> / <code data-page-node-id="uUFxx4PWNPM1riZ5i7bH8S">sets</code> / <code data-page-node-id="xMbGQxdmz38fkOYxjiDfp7">rir</code></td><td data-page-node-id="TIWOUh1JbBthPF6vF1Fz7I">~15 行</td></tr>
+<tr data-page-node-id="DCEQAsP2tQXMzZBXP2PEdW"><td data-page-node-id="Hv9BN9AkcNC9xzeP8fHih0">3</td><td data-page-node-id="YEHUGC6Gx52OvjK2msahZn">同上</td><td data-page-node-id="egE5yMkFlSUIOuMjrS0R91">增</td><td data-page-node-id="qh9eoiPflAOzWwiJOHc7K6"><code data-page-node-id="T8iUZTjtZvs1wYiPMY1VqD">_profile_path()</code> / <code data-page-node-id="3TLGBsEzvMMPjIyjRFp7uV">_load_profile()</code> / <code data-page-node-id="ZRUsVnPIAkQmb8sWTu6yDV">_save_profile()</code> 读写档案</td><td data-page-node-id="8Gam6kepEItd6KneE2lG4L">~40 行</td></tr>
+<tr data-page-node-id="SMSN23V6RPsNzCYDyt0YVi"><td data-page-node-id="IVXe2YFVmRz8eIGzGmChXz">4</td><td data-page-node-id="MOH2FQgTTPmF0fizXXWX6z">同上</td><td data-page-node-id="upbAAaeuZWwmh0P83bNPyF">增</td><td data-page-node-id="w8X1SwD9GdGjsQXdXy9HNQ">onboarding 分支：缺字段时末尾追加一问；识别到答案则抽取写回</td><td data-page-node-id="qyKG4h6AKFaWy1i9T9cpnH">~35 行</td></tr>
+<tr data-page-node-id="o6iBK2E7LKOluVvObPeZQk"><td data-page-node-id="vcOEjAAaRKEhDYZpM7xWpy">5</td><td data-page-node-id="J4XPo2TlmHoecbVizflRFe">同上</td><td data-page-node-id="tRYUwO82W9s4DD50sfyRkJ">增</td><td data-page-node-id="G1MIyU8au9clTnvuuPCMNl"><code data-page-node-id="88PfncAllBmLvH5xCKnQ6L">_update_prs()</code>：Epley 计算 + 破 PR 判定 + 写表 + 返回播报文案</td><td data-page-node-id="FSrxuCgWLf5WDfR3w0ZbBq">~45 行</td></tr>
+<tr data-page-node-id="fnxL81jdSVmUFc9NDzhCsv"><td data-page-node-id="ls0HdQdxOPsMZqok0K0zO9">6</td><td data-page-node-id="me5p3L4LS59oickQSHSuwC">同上</td><td data-page-node-id="I3DidHBcH1A78ofQB5kQHm">增</td><td data-page-node-id="lYs4v5L736BRowdmQHbQ8C"><code data-page-node-id="4pIMgaXaReIM34brbIAfLs">_progression_hint()</code>：查同动作最近 3 次，输出对比与趋势</td><td data-page-node-id="NMCprtLpOCjiIdJCMbiC5K">~30 行</td></tr>
+<tr data-page-node-id="cBG0LCHk0QhTax3pZhbUKH"><td data-page-node-id="x0CvBXqM4yJfdmUPF2GOuV">7</td><td data-page-node-id="nMIqbGU0GW0EM9jH6G10A7">同上</td><td data-page-node-id="R0F94DNuGU744q7nErMeKO">改</td><td data-page-node-id="YRfqP0eEzwOl0nLuB7wrMy"><code data-page-node-id="R9aIOSrRS6fPxBuO3Dos1G">handle()</code> 的 workout 分支串联 5+6；新增「档案 / PR 查询」分支</td><td data-page-node-id="EJpRLSQUkVoz1w34d29lC7">~25 行</td></tr>
+<tr data-page-node-id="SheBbWiJV5pIIKtGjWksaO"><td data-page-node-id="ZPptEQMlFuc1vK0ZYE1xwz">8</td><td data-page-node-id="A1AQsWoup1PAgEsK7UHkfH"><code data-page-node-id="axmRF8RFYlEtpmAwmJTe2i">gateway/agents/base.py</code></td><td data-page-node-id="qU2q0Li383ZCwYSwC3QenK">改</td><td data-page-node-id="Pyp6aZC5eNfYfGDd2mD5XI">system_prompt 支持助手声明额外人格文件（<code data-page-node-id="vjlQHuoYjwSitX49ood6hA">persona_files</code>）</td><td data-page-node-id="nVq4WfMAvFI8X9bdPHRgtq">~8 行</td></tr>
+<tr data-page-node-id="AEbXIjXpPd7YgNCDjsUoRd"><td data-page-node-id="FXQXucuJJ0oBl5tcNvxYVo">9</td><td data-page-node-id="mLblnJ2tgWDUrjfFcYTsnG"><code data-page-node-id="SO5baYJKTp0EWFf5q2tFcW">assistants/fitness/AGENTS.md</code></td><td data-page-node-id="bj8lqAw8FJaELrvE2lBcT4">改</td><td data-page-node-id="IamYgclbCpnuTRrdBuSZNx">新增：onboarding 话术、PR 播报规则、渐进超负荷决策表</td><td data-page-node-id="1zSHkTxcokDF5o1Vbvnz3T">+60 行</td></tr>
+<tr data-page-node-id="FKrVRtfPxGMHOTFTorh7Kh"><td data-page-node-id="H4oG2t2K6Dj1eqBPeDkuBA">10</td><td data-page-node-id="LJn3EGAFuinGuhxCDXpFRZ"><code data-page-node-id="CI4I0MM8MzzUoFDB7EA6cG">data/fitness/profile.md</code></td><td data-page-node-id="LRSBQIQS6eFGj8Hs24PZXg">增</td><td data-page-node-id="AOUMBFAqv5hahsDTDcafI8">首运行自动生成空模板，<strong data-page-node-id="xH79DGTmLdXtaMgfZNjUqq">不入库</strong></td><td data-page-node-id="B45n0Rad9G52W7QnjsvFmg">自动</td></tr>
+<tr data-page-node-id="VZ7JWdDHngUinfpmuXTfGk"><td data-page-node-id="D1lh7HxLFxdQuBAdwhjOUe">11</td><td data-page-node-id="H5E77uhtKDGe3a110hszGk"><code data-page-node-id="BC8QXn30vDx0iWpNzkyNq7">docs/</code></td><td data-page-node-id="MgzUikoFWcGLAGWOGVdEdC">增</td><td data-page-node-id="JHBy5RFINQrLXL8G5R6dWS">算法与规则出处说明</td><td data-page-node-id="UjBSqrlEvwfwge7vmraEKK">小</td></tr>
+<tr data-page-node-id="w3fG77HR6qgds58djRi8Gn"><td data-page-node-id="xW961i3c1OiEyN8SfRveO7">12</td><td data-page-node-id="DEWf1RjpQRSqY5DYWPGnWj"><code data-page-node-id="uhH7AGdj8zm1gzofVgDZQF">VERSION</code> / <code data-page-node-id="XeRbRLYQfQaFYD7atYCGrO">CHANGELOG.md</code></td><td data-page-node-id="Hm2hF1zriZv47VhPsvBIIl">改</td><td data-page-node-id="mvCl142aDleU3BsPDa426t">发布 v0.2.0</td><td data-page-node-id="VWrBQ4WHjaIhR2CBzwnB5e">—</td></tr>
+</table>
+<p data-page-node-id="zCPUFSzpK6bPpXCsxVTi3K"><strong data-page-node-id="HjjGGpvjf4dKJV1AiCDmid">不动</strong>：<code data-page-node-id="chiOEhwAaPS4SjjikXCoei">docker-compose.yml</code>（data 已挂载）、<code data-page-node-id="I4RxsxdifogrekSQ4A3Vub">Dockerfile</code>、<code data-page-node-id="sCxVEkOj1fswXkjrAnxEoG">.env</code>、life / mood 两个助手、现有表结构。</p>
+<div class="card" style="border-color:#cfe0ff;background:#f8fbff" data-page-node-id="M3PBydIaQD87QOhaDsUAle">
+<strong data-page-node-id="RzKkjSybPObLvrbGT1u1E7">零迁移风险点</strong>：<code data-page-node-id="rgi7Jf606lCx9GuW7scTHX">db.py</code> 的 SCHEMA 用 <code data-page-node-id="hbn1ryrnmyKzgj78gWp2N0">CREATE TABLE IF NOT EXISTS</code>，加新表老库自动生效；本次<strong data-page-node-id="hcIeZiLiiBBJskTqkM90LA">不修改任何已有表的列</strong>（数值字段走 exercises JSON 扩展），老训练记录不受影响。
+</div>
+
+<h2 data-page-node-id="Gtvq8OisNfGM6wLsdJfREs">四、预期效果</h2>
+<div class="chat" data-page-node-id="6plmo1lPcDynAAfqtaNESH"><div class="u" data-page-node-id="DDyGE6MlmOJCO0sdWF6GSD">① 档案未填时（顺带一问）</div><div class="a" data-page-node-id="tCL8XixuzkwvOLmUOcEwqw">你：今天练了胸，卧推 60kg 5×5<br data-page-node-id="JqekS6k0C9HRR1AiAGcPBe">
+教练：记下了，胸 + 卧推 60kg×5×5。卧推下次上 62.5kg，RIR 控制在 2–3。另外——你训练是在健身房还是家里？有器械清单我才能排得准。</div></div>
+<div class="chat" data-page-node-id="Ot1TMDnVmXb2IPwhBlbzka"><div class="u" data-page-node-id="pE5Y7gQ9mQgGZA3sjS7g2e">② 破 PR 时（主动播报 + 下次建议）</div><div class="a" data-page-node-id="XtNrOnQc6GwDq8TsnFmhxl">你：卧推 62.5 5 5 5，最后一组还剩 1 个<br data-page-node-id="6ouSkaquZXXmhlSdFCwtro">
+教练：卧推 62.5kg×5 → 估 1RM <b data-page-node-id="llfBudJqfUzm0E4CUK5SFr">73.0kg</b>，破 PR（上次 70.0，+3.0）。下周上 65kg，RIR 留 2–3；如果第 3 组掉到 4 次就别硬顶，退回 62.5 补次数。</div></div>
+<div class="chat" data-page-node-id="Qo0F5oJa4GbkslnBpYSy6b"><div class="u" data-page-node-id="xCD9TSfUzuWAF5jH9t8WI0">③ 查 PR</div><div class="a" data-page-node-id="LkAZdFeODeBE129LsrpAIj">你：我卧推到多少了<br data-page-node-id="TQWvg1ZJLcpLYGWBSqztoF">
+教练：卧推当前 1RM 估 73.0kg（09-09，62.5×5）。近三次：70.0 → 73.0，在涨。</div></div>
+
+<table data-page-node-id="fC0ar234X5wotyL2c4hcUs">
+<tr data-page-node-id="lPMicUm3rBrmTG3nopoyrw"><th style="width:34%" data-page-node-id="3BOU8LuqFLghIEEekMMiPh">指标</th><th style="width:33%" data-page-node-id="VTU1CjpKoq6k1SZO8bGdBt">现在</th><th data-page-node-id="jXfIEhb2oMVxrpc6KQk1wX">v0.2.0 后</th></tr>
+<tr data-page-node-id="jB7hnqDR1nqot75f4Q6yAK"><td data-page-node-id="57WIDAmu1YRxcWEmyte2XB">建议的个性化程度</td><td data-page-node-id="ej7Wv6Rfmyo72Fm6OLpa6y">通用健身知识</td><td data-page-node-id="DznwQyHjKLDqDOG5C0zEht">基于你自己的 PR 曲线与 RIR</td></tr>
+<tr data-page-node-id="ctcKnztGBdaPaSNfQBAJ2K"><td data-page-node-id="WCgotTQl5qG3Rv8ZgrL4fM">进步的正反馈</td><td data-page-node-id="mQojOszCGWfMRu8JedFSKQ">无</td><td data-page-node-id="fjHJI9HgddeFZOBbYe4E8c">破 PR 主动播报</td></tr>
+<tr data-page-node-id="vNP1zMh7sXYnnDKshFBwED"><td data-page-node-id="2OKxdS9VEGio7NfBfNx4dB">下次练多少</td><td data-page-node-id="MYS7Ij7XGOMKEBZN9db4DI">靠感觉</td><td data-page-node-id="TMX3yRRDfE3k5jY4Aqn3ce">有明确推导（重量/次数/RIR）</td></tr>
+<tr data-page-node-id="tuWGEpso7lbz4BMH0HYmVm"><td data-page-node-id="oxiskjZ7EPRos6tKsyGRDr">伤病规避</td><td data-page-node-id="MEAVRenCA3DPWcYEfmjQZM">被动（你提了才知道）</td><td data-page-node-id="xaKIYch3Y2T1MsIf5ZhqOU">档案里的禁忌动作长期生效</td></tr>
+</table>
+
+<h2 data-page-node-id="HkbKXfhFHnmVAYYcTFuGwV">五、本次不做（明确边界）</h2>
+<table data-page-node-id="4bA9CeLOnALqFCNZzdXkX3">
+<tr data-page-node-id="xg80eXDlaHoJzS6B9afNHv"><th style="width:34%" data-page-node-id="3839CXm6lFCTRLj1Jf5xHn">不做</th><th data-page-node-id="XG6CcErNItcoCivS5ZHtPs">原因</th></tr>
+<tr data-page-node-id="EWtxcen9epf9Nc8JkSXfAD"><td data-page-node-id="nXqUGyvqwgfEIvsRyF3V0s">周计划 / 周日互动生成</td><td data-page-node-id="kHbXcCtBxOFocuerhSN9Ni">P1，等档案和 PR 跑顺再上，否则排计划也没依据</td></tr>
+<tr data-page-node-id="SsYcEWBz87cpfVCH86OukT"><td data-page-node-id="GjxV0ndu7NRlqKX33hMaP4">周复盘（容量/频率/停滞）</td><td data-page-node-id="V4zJZBTunGbsH9rsyvbFdY">P1，同上</td></tr>
+<tr data-page-node-id="nBrdTvrfeSc9UlDXFL0xX0"><td data-page-node-id="8WeaBQ0dgAXAaQNGFZDxrx">训练前 readiness 自动调负荷</td><td data-page-node-id="kXKDNHPTZ9hNZWSZQqXGv1">P2，需要每次训练前多一轮对话，先验证使用频率</td></tr>
+<tr data-page-node-id="eCAOjZ8B27rvpGBEerdTA9"><td data-page-node-id="6sE78zmlvq0K94KaYpmWhp">MEV/MRV 肌群容量带</td><td data-page-node-id="N601CooQkcKduwFMj4d08X">需维护肌群映射表，性价比低；用 RIR 已能覆盖大部分决策</td></tr>
+<tr data-page-node-id="yccRNNrkku6NNJXmBrFmTT"><td data-page-node-id="4RgIGibApNNlUjLpVfxajA">体重体测趋势、血液指标</td><td data-page-node-id="Et1Hzd65oY15IKvZdrPei5">P2–P3</td></tr>
+<tr data-page-node-id="e3UCJF9AKiwHpn6B5hTtcV"><td data-page-node-id="i0NdtiAEVphyuO34wBhMzj">动 life / mood</td><td data-page-node-id="j2z77wDsg8PZBMCXtNnPe5">本次范围只到 fitness</td></tr>
+</table>
+
+<h2 data-page-node-id="ZyrcsEYcOOApTmk4k0faf3">六、风险与已知边界</h2>
+<ol data-page-node-id="1GmhHDt9WZTCiG8rqTe9Q9">
+<li data-page-node-id="P5nIybysptf6BAYDeg9wU9"><strong data-page-node-id="yGxnoRbYRev9Sm9YsbsfSc">1RM 是估算值，不是实测</strong>，误差约 ±5%，只能看趋势、不能当绝对数字。回复里会带「估」字。</li>
+<li data-page-node-id="U7b9ehyrZIZftVrJNGGb5N"><strong data-page-node-id="mpHMFCEiJVIq0puwrDE51Z">历史训练记录无法回溯生成 PR</strong>——之前 exercises 存的是字符串、无统一动作名与 RIR。PR 从 v0.2.0 上线后<strong data-page-node-id="8ozYXGrzDlFLvihXn7S74q">新记的</strong>开始积累。（可选：写一次性回填脚本，用正则从旧 <code data-page-node-id="FkdyX1xGaEXLibHOLfHloF">raw_input</code> 抽数字补建 PR。）</li>
+<li data-page-node-id="ZmIZJ3239oNRx77YjZnICl">动作名归一靠 LLM 输出 + 包含匹配，<strong data-page-node-id="WqEzHBMPdBN67z5zIf4nnT">同一动作的不同叫法可能被拆成两条 PR 曲线</strong>。用久了可在档案里维护别名表，本次不预先做。</li>
+<li data-page-node-id="OH0VmX3B1h7XtlwxyH5yQH">档案为空期间建议会偏通用，这符合现有「不编造」约束，不是 bug。</li>
+<li data-page-node-id="X6ZBTpJ1z9P8xizxA635Zc">新增抽取字段会让单次记录多耗少量 token，响应仍在秒级。</li>
+</ol>
+
+<h2 data-page-node-id="Hrc6W23iydN0q9zDM9365U">七、待确认的三个决策点</h2>
+<table data-page-node-id="Us9MSa5yZZUKkyGWWxhfWM">
+<tr data-page-node-id="XM62oklTdnsEEeN7OWaa62"><th style="width:6%" data-page-node-id="Y5hlSeWXm0C3G0SoDm37cW">#</th><th style="width:34%" data-page-node-id="qfLmw9qMdma72BpF5fYCTw">决策点</th><th data-page-node-id="LkmL2bodfFFHHfUuLPJCm7">选项</th></tr>
+<tr data-page-node-id="nCKEAkv6InAWI42B65m9Jd"><td data-page-node-id="h9s6RZEZP3abd23e4cK1tE">A</td><td data-page-node-id="jBhENJciECOds57lWDRILI">简写语法解析 <code data-page-node-id="OAu7Th35msA7RMqjL6oAEy">卧推 60x5x3</code> 是否同批做</td><td data-page-node-id="RFthaaYqWXfQd0rWJHGsKr">做（约 30 行正则，命中则跳过 LLM，更快更准）／不做</td></tr>
+<tr data-page-node-id="5UKqFHkASiE9paT2NuuPlt"><td data-page-node-id="PI4h1jo5h6pO6LWynsJAaZ">B</td><td data-page-node-id="aSNeK9yFE2hzshGTcDkkF5">历史训练记录是否回填 PR</td><td data-page-node-id="TVG2WgDrzPwXHwZLJQxPWj">做一次性回填脚本／不做，PR 从新记录开始</td></tr>
+<tr data-page-node-id="FaEDBN772EXeuGmzj48Pz3"><td data-page-node-id="8GHqJbA6H68lM2SEDDVTzx">C</td><td data-page-node-id="fWc2CtO8znivU2zhzxLVtJ">onboarding 提问节奏</td><td data-page-node-id="n8drOyRCBORSdWIdrRis47">顺带一问（推荐）／一次性问完全部／只在你说「建档」时才问</td></tr>
+</table>
+
+<h2 data-page-node-id="6mKTkv0Tc2MfC5p6XSiJG1">八、确认后的执行与验收</h2>
+<div class="formula" data-page-node-id="z8zLwLBkxzn3dDAYVctYtc">改代码 → bash deploy/release.sh minor "埼玉教练：档案 + PR + 渐进超负荷" → 服务器更新 → record_release.sh v0.2.0</div>
+<p data-page-node-id="wrxsUTTTA8YGFEmEiZBCcv"><strong data-page-node-id="6kHEJfYW2dTbTJFTzfi1wM">验收三件事：</strong></p>
+<ol data-page-node-id="PdNwHCjtnT1QKyK0ZIJ5Gh">
+<li data-page-node-id="sjOlj3TeDMPttXFANwToZY">发「卧推 60kg 5×5，还剩 1 个」→ 看是否计算 1RM、判定破 PR、给出下次重量</li>
+<li data-page-node-id="iAHCsM9kKNA5w3IyoodamZ">发「我卧推到多少了」→ 看是否查 <code data-page-node-id="BMyeVSONVztxVSKwVOEBD5">pr_record</code> 如实回答</li>
+<li data-page-node-id="Rn1DisIWtfeP3Nl83KDxSu"><code data-page-node-id="OJ4Wk0GlRJGC7wOaCeLpjD">curl http://49.235.107.213:9000/health</code> → <code data-page-node-id="WETfAgp44CFDpiu2y85j8G">version</code> 应为 <code data-page-node-id="7mNZZyeaSzDOzssUMIvHmI">0.2.0</code></li>
+</ol>
+<p data-page-node-id="C1eXxLw7aFJPFRz1NIGD2v"><strong data-page-node-id="VLM5PWO7PbzQsVPm22aS9v">回滚</strong>：<code data-page-node-id="BjbxWHUXUeDZKL2XHQiPn4">sudo bash deploy/rollback.sh v0.1.0</code>（只动代码，不动训练数据）。</p>
+
+<div class="foot" data-page-node-id="8g8tICV6Y4iSUZqSpF2pQM">Karvis · 埼玉教练 v0.2.0 方案　|　参考：IronClaude（提示词架构）· GymCoach（Epley / RIR / 渐进超负荷算法）</div>
+
+</div>
+</body>
+</html>

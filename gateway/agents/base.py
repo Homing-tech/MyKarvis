@@ -20,6 +20,14 @@ class BaseAgent:
         self.display_name = conf.display_name
 
     # ---------- 人格 ----------
+    def extra_persona_paths(self) -> list[Path]:
+        """子类可返回额外人格文件路径。
+
+        用于挂载 data 层的长期档案（如训练档案）——那类文件不能放 assistants/，
+        否则会被 update.sh 的 git reset --hard 冲掉。
+        """
+        return []
+
     def system_prompt(self) -> str:
         parts = []
         shared = ASSISTANTS_DIR / "_shared" / "profile.md"
@@ -28,6 +36,12 @@ class BaseAgent:
         own = ASSISTANTS_DIR / self.key / "AGENTS.md"
         if own.exists():
             parts.append(own.read_text(encoding="utf-8"))
+        for p in self.extra_persona_paths():
+            try:
+                if p.exists():
+                    parts.append(p.read_text(encoding="utf-8"))
+            except OSError:
+                continue
         if not parts:
             parts.append(f"你是{self.display_name}，一位可靠的个人助手。回答简洁、直接、结论先行。")
         parts.append(
